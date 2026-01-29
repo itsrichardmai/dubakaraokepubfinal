@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { karaokeRooms } from '../data/menuData';
 
 const contactInfo = {
-  phone: '215-635-DUBA (3822)',
+  phone: '215-635-3822',
   email: 'duba.elkins@gmail.com',
   address: '1333 W. Cheltenham Ave, Fl Basement, Elkins Park, PA 19027',
   hours: {
