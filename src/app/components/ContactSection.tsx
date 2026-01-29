@@ -74,8 +74,21 @@ export function ContactSection() {
       return;
     }
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/send-reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send reservation');
+      }
+
       toast.success('Reservation request sent! We\'ll contact you soon.');
       setFormData({
         name: '',
@@ -88,8 +101,12 @@ export function ContactSection() {
         desiredRoom: '',
         specialRequests: '',
       });
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast.error('Failed to send reservation. Please try again or call us directly.');
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -190,7 +207,7 @@ export function ContactSection() {
                 <h3 className="text-2xl font-bold mb-6 text-yellow-400">Order Delivery</h3>
                 <div className="space-y-3">
                   <a
-                    href="https://www.grubhub.com/restaurant/duba-karaoke--pub-1333-west-cheltenham-avenue-elkins-park/5822655"
+                    href="https://www.grubhub.com/restaurant/duba-karaoke--pub-1333-west-cheltenham-avenue-elkins-park/4012912"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between bg-black/50 hover:bg-orange-600/20 border border-orange-600/30 hover:border-orange-600 p-4 rounded-lg transition-all group"
@@ -200,7 +217,7 @@ export function ContactSection() {
                   </a>
 
                   <a
-                    href="https://www.ubereats.com/store/duba-karaoke-and-pub-philadelphia/vYL5bAjqRZaV_FH6uLBs0Q"
+                    href="https://www.ubereats.com/store/duba-karaoke-and-pub/CieG1UYxV02VonuZ5drsJw?srsltid=AfmBOor6J5LjfBDemmn5dJofHVCiDUYNs_SsIUcm6L8iDxnsmF9BRhUx"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between bg-black/50 hover:bg-green-600/20 border border-green-600/30 hover:border-green-600 p-4 rounded-lg transition-all group"
@@ -210,7 +227,7 @@ export function ContactSection() {
                   </a>
 
                   <a
-                    href="https://www.doordash.com/store/duba-karaoke-&-pub-elkins-park-1568208/"
+                    href="https://www.doordash.com/en/store/duba-karaoke-&-pub-elkins-park-22973432/12782885/?srsltid=AfmBOorMXr5NPp6wLoJf3dlpae775QifPx4G3c2cMSOwHbD4EY75bSWd"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between bg-black/50 hover:bg-red-600/20 border border-red-600/30 hover:border-red-600 p-4 rounded-lg transition-all group"
@@ -338,10 +355,10 @@ export function ContactSection() {
                       {karaokeRooms.map((room) => (
                         <SelectItem 
                           key={room.name} 
-                          value={`${room.name} (Max ${room.capacity}) - ${room.price}`}
+                          value={`${room.name} (Max ${room.capacity}) `}
                           className="text-white focus:bg-yellow-400/20"
                         >
-                          {room.name} (Max {room.capacity}) - {room.price}
+                          {room.name} (Max {room.capacity}) 
                         </SelectItem>
                       ))}
                     </SelectContent>

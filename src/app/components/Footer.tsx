@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Facebook, Instagram, Music2 } from 'lucide-react';
+import { Facebook, Instagram} from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -67,23 +67,18 @@ export function Footer() {
               <h4 className="text-white font-semibold mb-4">Follow Us</h4>
               <div className="flex gap-3 justify-center md:justify-end">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/Dubakaraokepub/"
                   className="w-10 h-10 rounded-full bg-gray-900 hover:bg-yellow-400 flex items-center justify-center transition-colors group"
                 >
                   <Facebook size={18} className="text-gray-400 group-hover:text-black" />
                 </a>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/dubakaraokepub/?hl=en"
                   className="w-10 h-10 rounded-full bg-gray-900 hover:bg-yellow-400 flex items-center justify-center transition-colors group"
                 >
                   <Instagram size={18} className="text-gray-400 group-hover:text-black" />
                 </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-gray-900 hover:bg-yellow-400 flex items-center justify-center transition-colors group"
-                >
-                  <Music2 size={18} className="text-gray-400 group-hover:text-black" />
-                </a>
+
               </div>
               <p className="text-gray-400 text-sm mt-4">
                 215-635-DUBA (3822)

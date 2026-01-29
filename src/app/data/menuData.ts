@@ -1,10 +1,16 @@
 export const menuData = {
   appetizers: [
-    { name: 'Kimchi', korean: '김치', description: 'Traditional fermented cabbage' },
-    { name: 'Japchae', korean: '잡채', description: 'Glass noodles with vegetables' },
-    { name: 'Mandu', korean: '만두', description: 'Korean dumplings (steamed or fried)' },
-    { name: 'Pajeon', korean: '파전', description: 'Korean scallion pancake' },
-    { name: 'Tteokbokki', korean: '떡볶이', description: 'Spicy rice cakes' },
+    { name: 'Honey Butter Chips', korean: '허니 버터 칩스', description: 'Crispy chips with honey butter sauce' },
+    { name: 'French Fries', korean: '프렌치 프라이', description: 'Crispy fried potatoes with salt' },
+    { name: 'Edamame', korean: '에다마메', description: 'Korean dumplings (steamed or fried)' },
+    { name: 'Sweet Potato Fries', korean: '스위트 포테이토 프라이', description: 'Crispy sweet potato fries with salt' },
+    { name: 'Onion Rings', korean: '온يون 링스', description: 'Crispy onion rings with salt' },
+    { name: 'Fried Dumplings', korean: '모듬구이', description: 'Vegetable dumplings fried in oil' },
+    { name: 'Steamed Dumplings', korean: '모듬구이', description: 'Vegetables, beef and pork steamed' },
+    { name: 'Hawaiian Spam', korean: '하와이안 스파ム', description: 'Mix of beef, pork, and chicken' },
+    { name: 'Mozarella Sticks', korean: '모자렐라 스틱', description: 'Crispy mozzarella sticks with ranch dip' },
+    { name: 'Fish Jerky', korean: '피시 제리', description: 'Crispy fish jerky with soy sauce' },
+    { name: 'Pork Egg Rolls', korean: '모듬구이', description: 'Pork egg rolls with vegetables and sauce' },
   ],
   bbqChicken: [
     { name: 'Soy Garlic Chicken', korean: '간장 마늘 치킨', description: 'Sweet and savory soy garlic flavor' },
@@ -15,12 +21,16 @@ export const menuData = {
     
     
   ],
-  bbq: [
-    { name: 'Galbi (Short Ribs)', korean: '갈비', description: 'Marinated beef short ribs' },
-    { name: 'Bulgogi', korean: '불고기', description: 'Marinated beef' },
-    { name: 'Samgyeopsal', korean: '삼겹살', description: 'Pork belly' },
-    { name: 'Spicy Pork', korean: '제육볶음', description: 'Marinated spicy pork' },
-    { name: 'Combo Platter', korean: '모듬구이', description: 'Mix of beef, pork, and chicken' },
+  smallplates: [
+    { name: 'Corn Cheese', korean: '콘 치즈', description: 'Cheesy corn with melted cheese' },
+    { name: 'Korean Ribs', korean: '불고기', description: 'Pork Ribs w/ Holson BBQ sauce' },
+    { name: 'Spicy Fried Shrimp', korean: '매콤한 새우 튀김', description: 'Crispy spicy fried shrimp with soy sauce' },
+    { name: 'Fish & Chips', korean: '피시 & 칩스', description: 'Crispy battered fish with chips and tartar sauce' },
+    { name: 'Chicken Teriyaki', korean: '치킨 테리야키', description: 'Crispy chicken with teriyaki sauce' },
+    { name: 'Bulgogi Taco', korean: '불고기 타코', description: 'Taco with bulgogi beef, vegetables, cheese and sour cream' },
+    { name: 'Seafood Pancake', korean: '해산물 팬케이크', description: 'Crispy pancake with seafood and vegetables' },
+    { name: 'Galbi Buns', korean: '갈비 빵', description: 'Beef short rib, Duba mango sauce, lettuce' },
+    { name: 'Crab Rangoon', korean: '모듬구이', description: 'Mix of beef, pork, and chicken' }
   ],
   soups: [
     { name: 'Odeng Tang', korean: '오뎅탕', description: 'Traditional fishcake soup' },
@@ -170,30 +180,49 @@ export const menuData = {
 };
 
 export const happyHour = {
-  timing: 'Sunday - Thursday 5PM - 10PM | Friday - Saturday | 5PM - 9PM' ,
-  note: 'Except Holidays',
+  timing: 'Sunday - Thursday 6PM - 10PM' ,
+  note: 'Friday - Saturday  6PM - 8PM',
   specials: [
-    { name: 'Capri Pouches', price: '$8' },
-    { name: 'Shooter Pitcher', price: '$20' },
-    { name: 'Dumplings', price: '$6' },
+    { name: 'Adult Capri Sun', price: '$10' },
+    { name: 'Espresso Martini', price: '$9' },
+    { name: 'Beer Pitcher', price: '$9' },
+    { name: 'Green Tea Pitcher', price: '$30' },
+    { name: 'Long Island', price: '$12' },
+    { name: 'Soju', price: '$13' },
+    { name: 'Fried/Steamed Dumplings', price: '$6' },
     { name: 'Honey Butter Chips', price: '$6' },
     { name: 'Fries', price: '$6' },
-    { name: 'Yoo Lin Gi', price: '$10' },
+    { name: 'Edamamae', price: '$5' },
     { name: 'Hawaiian Spam', price: '$8' },
-    { name: 'Korean Ribs', price: '$15' },
-    { name: 'Korean Wings', price: '$20' },
+    { name: 'Korean Ribs (BBQ|Spicy)', price: '$15' },
+    { name: 'Wings (6pcs)', price: '$10' },
+    { name: 'Crab Rangoon', price: '$10' },
+    { name: 'Galbi Buns', price: '$8' }
   ],
   karaokeDiscount: 'Discounted Karaoke (Sunday - Thursday)',
 };
 
 export const karaokeRooms = [
+  { name: 'Stella', capacity: '6', price: '$40/hr' },
+  { name: 'Corona', capacity: '6', price: '$40/hr' },
+  { name: 'Guinness', capacity: '6', price: '$40/hr' },
+  { name: 'Coors', capacity: '6', price: '$40/hr' },
   { name: 'Heineken', capacity: '9', price: '$60/hr' },
   { name: 'Brooklyn', capacity: '12', price: '$80/hr' },
-  { name: 'Corona', capacity: '6', price: '$40/hr' },
   { name: 'Budweiser', capacity: '12', price: '$80/hr' },
   { name: 'Factory', capacity: '18', price: '$100/hr' },
-  { name: 'Coors', capacity: '6', price: '$40/hr' },
-  { name: 'Guinness', capacity: '6', price: '$40/hr' },
-  { name: 'Stella', capacity: '6', price: '$40/hr' },
   { name: 'Lounge', capacity: '30', price: '$125/hr' },
 ];
+
+export const karaokeRooms2 = [
+  { name: 'Stella', capacity: '6', price: '$20/hr' },
+  { name: 'Corona', capacity: '6', price: '$20/hr' },
+  { name: 'Guinness', capacity: '6', price: '$20/hr' },
+  { name: 'Coors', capacity: '6', price: '$20/hr' },
+  { name: 'Heineken', capacity: '9', price: '$30/hr' },
+  { name: 'Brooklyn', capacity: '12', price: '$40/hr' },
+  { name: 'Budweiser', capacity: '12', price: '$40/hr' },
+  { name: 'Factory', capacity: '18', price: '$50/hr' },
+  { name: 'Lounge', capacity: '30', price: '$75/hr' },
+];
+

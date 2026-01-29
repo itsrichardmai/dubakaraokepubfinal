@@ -3,7 +3,7 @@ import { Beer, Mic2, ChefHat, Wine, Flame } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card } from './ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { menuData, happyHour, karaokeRooms } from '../data/menuData';
+import { menuData, happyHour, karaokeRooms, karaokeRooms2 } from '../data/menuData';
 
 export function MenuSection() {
   return (
@@ -23,7 +23,7 @@ export function MenuSection() {
         </motion.div>
 
         <Tabs defaultValue="food" className="max-w-7xl mx-auto">
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-900/50 border border-yellow-500/20">
+          <TabsList className="grid w-full grid-cols-5 mb-8 bg-gray-900/50 border border-yellow-500/20">
             <TabsTrigger value="food" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <ChefHat className="mr-2 h-4 w-4" />
               Food
@@ -32,9 +32,17 @@ export function MenuSection() {
               <Wine className="mr-2 h-4 w-4" />
               Drinks
             </TabsTrigger>
+            <TabsTrigger value="happyhour" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+              <Beer className="mr-2 h-4 w-4" />
+              Happy Hour
+            </TabsTrigger>
             <TabsTrigger value="karaoke" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Mic2 className="mr-2 h-4 w-4" />
-              Karaoke
+              Karaoke (Weekend)
+            </TabsTrigger>
+            <TabsTrigger value="karaokeweekday" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+              <Mic2 className="mr-2 h-4 w-4" />
+              Karaoke (Weekday)
             </TabsTrigger>
           </TabsList>
 
@@ -54,7 +62,8 @@ export function MenuSection() {
                     bb.q CHICKEN
                     <Flame className="text-red-400" />
                   </h3>
-                  <p className="text-gray-300 text-sm">No.1 Korean Chicken | Famous in 57 Countries</p>
+                  <p className="text-gray-300 text-sm">No.1 Korean Chicken | Famous in 57 Countries </p>
+                  <p className="text-gray-300 text-sm">Boneless | Wings | Drumsticks </p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   {menuData.bbqChicken.map((item, index) => (
@@ -75,14 +84,16 @@ export function MenuSection() {
             {/* Other Food Categories */}
             <div className="grid md:grid-cols-2 gap-8">
               <MenuCategory title="Appetizers (전채)" items={menuData.appetizers} />
-              <MenuCategory title="Small Plates (작은 접시)" items={menuData.bbq} />
+              <MenuCategory title="Small Plates (작은 접시)" items={menuData.smallplates} />
               <MenuCategory title="Soups & Stews (찌개)" items={menuData.soups} />
               <MenuCategory title="Chef Special (셰프 특선 요리)" items={menuData.mains} />
               <MenuCategory title="Desserts (셰프 특선 요리)" items={menuData.desserts} />
 
             </div>
+          </TabsContent>
 
-            {/* Happy Hour */}
+          {/* Happy Hour Tab */}
+          <TabsContent value="happyhour">
             <HappyHourCard />
           </TabsContent>
 
@@ -130,8 +141,11 @@ export function MenuSection() {
               <h3 className="text-3xl font-bold mb-6 text-yellow-400 text-center">
                 Karaoke Rooms (노래방)
               </h3>
+              <p className="text-gray-300 text-center">
+               Weekend Pricing (Friday & Saturday)
+              </p>
               <p className="text-gray-300 mb-6 text-center">
-                9 Private Themed Rooms • Korean, English & Chinese Songs • Full Bar Service
+               9 Private Themed Rooms • Korean, English & Chinese Songs • Full Bar Service 
               </p>
               
               <div className="grid md:grid-cols-3 gap-4">
@@ -147,7 +161,44 @@ export function MenuSection() {
                     <Card className="bg-black/40 border-yellow-500/30 p-6 text-center hover:border-yellow-400 transition-all">
                       <Mic2 className="mx-auto mb-3 text-yellow-400" size={32} />
                       <h4 className="text-white font-bold text-xl mb-2">{room.name}</h4>
-                      <p className="text-gray-400 text-sm mb-2">Max Capacity: {room.capacity}</p>
+                      <p className="text-gray-400 text-sm mb-1">Max Capacity: {room.capacity}</p>
+                      <p className="text-yellow-400 font-bold text-lg">{room.price}</p>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <p className="text-center text-gray-400 mt-8 text-sm">
+                * Song library updated monthly. Call for availability.
+              </p>
+            </Card>
+          </TabsContent>
+          <TabsContent value="karaokeweekday">
+            <Card className="bg-gradient-to-br from-yellow-400/10 to-transparent border border-yellow-500/30 p-8">
+              <h3 className="text-3xl font-bold mb-6 text-yellow-400 text-center">
+                Karaoke Rooms (노래방)
+              </h3>
+              <p className="text-gray-300 text-center">
+               Weekday Pricing (Sunday - Thursday)
+              </p>
+              <p className="text-gray-300 mb-6 text-center">
+               9 Private Themed Rooms • Korean, English & Chinese Songs • Full Bar Service 
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                {karaokeRooms2.map((room, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.05 }}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                  >
+                    <Card className="bg-black/40 border-yellow-500/30 p-6 text-center hover:border-yellow-400 transition-all">
+                      <Mic2 className="mx-auto mb-3 text-yellow-400" size={32} />
+                      <h4 className="text-white font-bold text-xl mb-2">{room.name}</h4>
+                      <p className="text-gray-400 text-sm mb-1">Max Capacity: {room.capacity}</p>
                       <p className="text-yellow-400 font-bold text-lg">{room.price}</p>
                     </Card>
                   </motion.div>
@@ -194,6 +245,13 @@ function MenuCategory({ title, items }: { title: string; items: any[] }) {
 }
 
 function HappyHourCard() {
+  const happyHourDrinks = happyHour.specials.filter(item =>
+    ['Adult Capri Sun', 'Shooter Pitcher', 'Espresso Martini', 'Beer Pitcher', 'Green Tea Pitcher', 'Long Island', 'Soju'].includes(item.name)
+  );
+  const happyHourFood = happyHour.specials.filter(item =>
+    !['Adult Capri Sun', 'Shooter Pitcher', 'Espresso Martini', 'Beer Pitcher', 'Green Tea Pitcher', 'Long Island', 'Soju'].includes(item.name)
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -210,14 +268,39 @@ function HappyHourCard() {
           <p className="text-yellow-400 text-lg font-semibold mb-1">{happyHour.timing}</p>
           <p className="text-gray-400 text-sm">({happyHour.note})</p>
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-x-8 gap-y-4 mb-8 max-w-4xl mx-auto">
-          {happyHour.specials.map((item, index) => (
-            <div key={index} className="flex justify-between items-center bg-black/30 rounded-lg px-4 py-2">
-              <span className="text-white">{item.name}</span>
-              <span className="text-yellow-400 font-bold text-lg">{item.price}</span>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Drinks Section */}
+          <div>
+            <div className="flex items-center gap-2 mb-4 pb-2 border-b border-yellow-500/30">
+              <Wine className="text-yellow-400" size={20} />
+              <h4 className="text-yellow-400 font-semibold text-lg">Drinks</h4>
             </div>
-          ))}
+            <div className="space-y-3">
+              {happyHourDrinks.map((item, index) => (
+                <div key={index} className="flex justify-between items-center bg-black/30 rounded-lg px-4 py-2">
+                  <span className="text-white">{item.name}</span>
+                  <span className="text-yellow-400 font-bold text-lg">{item.price}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Food Section */}
+          <div>
+            <div className="flex items-center gap-2 mb-4 pb-2 border-b border-yellow-500/30">
+              <ChefHat className="text-yellow-400" size={20} />
+              <h4 className="text-yellow-400 font-semibold text-lg">Food</h4>
+            </div>
+            <div className="space-y-3">
+              {happyHourFood.map((item, index) => (
+                <div key={index} className="flex justify-between items-center bg-black/30 rounded-lg px-4 py-2">
+                  <span className="text-white">{item.name}</span>
+                  <span className="text-yellow-400 font-bold text-lg">{item.price}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
       </Card>
