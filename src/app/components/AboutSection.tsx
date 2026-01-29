@@ -134,7 +134,7 @@ export function AboutSection() {
 
   {/* Widget loads lazily & safely */}
   <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 p-8 mt-6 min-h-[420px]">
-    <ElfsightWidget widgetId="341b92ab-16d9-4556-8e6b-7c76a8999555" />
+    <ElfsightWidget widgetId="a5e5915b-7d77-4fe9-a3b5-31a0b7363092"/>
   </Card>
 </div>
 
