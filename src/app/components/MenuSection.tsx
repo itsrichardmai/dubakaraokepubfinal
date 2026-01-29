@@ -24,23 +24,23 @@ export function MenuSection() {
 
         <Tabs defaultValue="food" className="max-w-7xl mx-auto">
           <TabsList className="grid w-full grid-cols-5 mb-8 bg-gray-900/50 border border-yellow-500/20">
-            <TabsTrigger value="food" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="food" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <ChefHat className="mr-2 h-4 w-4" />
               Food
             </TabsTrigger>
-            <TabsTrigger value="drinks" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="drinks" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Wine className="mr-2 h-4 w-4" />
               Drinks
             </TabsTrigger>
-            <TabsTrigger value="happyhour" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="happyhour" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Beer className="mr-2 h-4 w-4" />
               Happy Hour
             </TabsTrigger>
-            <TabsTrigger value="karaoke" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="karaoke" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Mic2 className="mr-2 h-4 w-4" />
               Karaoke (Weekend)
             </TabsTrigger>
-            <TabsTrigger value="karaokeweekday" className="data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="karaokeweekday" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Mic2 className="mr-2 h-4 w-4" />
               Karaoke (Weekday)
             </TabsTrigger>

@@ -21,7 +21,7 @@ export function Footer() {
                 <img src="/logo-icon.png" alt="Duba Logo" className="h-12 w-12 object-contain" />
                 <div>
                   <div className="text-yellow-400 font-bold text-2xl">DUBA</div>
-                  <div className="text-gray-400 text-sm">Pub & Karaoke Lounge</div>
+                  <div className="text-gray-400 text-sm">Karaoke & Pub</div>
                 </div>
               </div>
               <p className="text-gray-500 text-sm">

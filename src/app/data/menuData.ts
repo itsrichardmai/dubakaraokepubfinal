@@ -192,7 +192,7 @@ export const happyHour = {
     { name: 'Fried/Steamed Dumplings', price: '$6' },
     { name: 'Honey Butter Chips', price: '$6' },
     { name: 'Fries', price: '$6' },
-    { name: 'Edamamae', price: '$5' },
+    { name: 'Edamame', price: '$5' },
     { name: 'Hawaiian Spam', price: '$8' },
     { name: 'Korean Ribs (BBQ|Spicy)', price: '$15' },
     { name: 'Wings (6pcs)', price: '$10' },
@@ -203,15 +203,15 @@ export const happyHour = {
 };
 
 export const karaokeRooms = [
-  { name: 'Stella', capacity: '6', price: '$40/hr' },
-  { name: 'Corona', capacity: '6', price: '$40/hr' },
-  { name: 'Guinness', capacity: '6', price: '$40/hr' },
-  { name: 'Coors', capacity: '6', price: '$40/hr' },
-  { name: 'Heineken', capacity: '9', price: '$60/hr' },
-  { name: 'Brooklyn', capacity: '12', price: '$80/hr' },
-  { name: 'Budweiser', capacity: '12', price: '$80/hr' },
-  { name: 'Factory', capacity: '18', price: '$100/hr' },
-  { name: 'Lounge', capacity: '30', price: '$125/hr' },
+  { name: 'Stella', capacity: '6', price: '$30/hr' },
+  { name: 'Corona', capacity: '6', price: '$30/hr' },
+  { name: 'Guinness', capacity: '6', price: '$30/hr' },
+  { name: 'Coors', capacity: '6', price: '$30/hr' },
+  { name: 'Heineken', capacity: '9', price: '$50/hr' },
+  { name: 'Brooklyn', capacity: '12', price: '$70/hr' },
+  { name: 'Budweiser', capacity: '12', price: '$70/hr' },
+  { name: 'Factory', capacity: '18', price: '$80/hr' },
+  { name: 'Lounge', capacity: '30', price: '$100/hr' },
 ];
 
 export const karaokeRooms2 = [

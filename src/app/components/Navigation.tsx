@@ -75,7 +75,7 @@ export function Navigation({ activeSection }: NavigationProps) {
               <div className="font-bold text-xl bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
                 DUBA
               </div>
-              <div className="text-xs text-gray-400">Pub & Karaoke</div>
+              <div className="text-xs text-gray-400">Karaoke & Pub</div>
             </div>
           </motion.button>
 
