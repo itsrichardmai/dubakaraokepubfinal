@@ -42,7 +42,7 @@ Special Requests: ${specialRequests || 'None'}
 Submitted via DubaKaraoke.com`;
 
     const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'reservations@dubalounge.com',
       to: 'duba.elkins@gmail.com',
       subject: `New Reservation Request - ${name}`,
       text: emailContent,
