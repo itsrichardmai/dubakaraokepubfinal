@@ -14,6 +14,11 @@ const galleryItems = [
   { type: 'image', url: '/gallery/galleryimg8.png', title: 'Karaoke Room' },
   { type: 'image', url: '/gallery/galleryimg10.jpg', title: 'Karaoke Room' },
   { type: 'image', url: '/gallery/galleryimg11.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg12.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg13.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg14.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg15.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg16.jpg', title: 'Karaoke Room' },
 ];
 
 export function GallerySection() {
