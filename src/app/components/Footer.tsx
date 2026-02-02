@@ -20,7 +20,7 @@ export function Footer() {
               <div className="flex items-center gap-3 justify-center md:justify-start mb-4">
                 <img src="/logo-icon.png" alt="Duba Logo" className="h-12 w-12 object-contain" />
                 <div>
-                  <div className="text-yellow-400 font-bold text-2xl">DUBA</div>
+                  <div className="text-yellow-400 font-bold text-2xl" style={{ fontFamily: "'Yeseva One', serif" }}>DUBA</div>
                   <div className="text-gray-400 text-sm">Karaoke & Pub</div>
                 </div>
               </div>

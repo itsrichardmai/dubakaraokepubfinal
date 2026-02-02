@@ -38,7 +38,7 @@ export function AboutSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-4">
+          <h2 className="text-4xl md:text-6xl font-bold mb-4" style={{ fontFamily: "'Yeseva One', serif" }}>
             <span className="text-white">ABOUT </span>
             <span className="bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
               DUBA
@@ -57,8 +57,7 @@ export function AboutSection() {
           >
             <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 backdrop-blur-sm p-8 md:p-12">
               <div className="prose prose-invert prose-lg max-w-none">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  Step into the ultimate Korean entertainment experience where authentic K-BBQ meets state-of-the-art karaoke. 
+                <p className="text-gray-300 leading-relaxed mb-6"> 
                   At Duba, we've created a unique fusion destination that celebrates Korean culture, cuisine, and entertainment 
                   in the heart of Elkins Park, PA.
                 </p>
@@ -85,7 +84,7 @@ export function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
+            <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Yeseva One', serif" }}>
               Awards & Recognitions
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
@@ -126,7 +125,7 @@ export function AboutSection() {
     transition={{ duration: 0.6, delay: 0.6 }}
   >
     <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 p-8">
-      <h3 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
+      <h3 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Yeseva One', serif" }}>
         What Our Guests Say
       </h3>
     </Card>

@@ -85,8 +85,11 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="space-y-4 mb-8"
         >
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 bg-clip-text text-transparent mb-4">
-            Karaoke & Pub 
+          <h1
+            className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 bg-clip-text text-transparent mb-4"
+            style={{ fontFamily: "'Yeseva One', serif" }}
+          >
+            Karaoke & Pub
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 font-light max-w-2xl mx-auto">
             Good Food. Good Drinks. Good Vibes.

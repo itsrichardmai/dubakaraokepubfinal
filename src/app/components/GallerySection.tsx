@@ -8,14 +8,12 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 const galleryItems = [
   { type: 'image', url: '/gallery/galleryimg0.png', title: 'Karaoke Room' },
   { type: 'image', url: '/gallery/galleryimg1.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg2.jpg', title: 'BBQ Chicken' },
   { type: 'image', url: '/gallery/galleryimg3.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg4.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg5.png', title: 'Karaoke Room' },
   { type: 'image', url: '/gallery/galleryimg6.png', title: 'Karaoke Room' },
   { type: 'image', url: '/gallery/galleryimg7.png', title: 'Karaoke Room' },
   { type: 'image', url: '/gallery/galleryimg8.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg9.png', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg10.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg11.jpg', title: 'Karaoke Room' },
 ];
 
 export function GallerySection() {
@@ -45,7 +43,7 @@ export function GallerySection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Yeseva One', serif" }}>
             Gallery
           </h2>
           <div className="h-1 w-24 bg-gradient-to-r from-transparent via-yellow-400 to-transparent mx-auto" />
