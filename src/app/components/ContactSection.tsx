@@ -20,11 +20,28 @@ const contactInfo = {
   },
 };
 
-const promoPackages = [
-  'Brooklyn/Budweiser: ($250+) = Appetizer(4) + Entree(2)',
-  'Factory: ($300+) = Appetizer(6) + Entree(3)',
-  'Lounge: ($350+) = Appetizer(10) + Entree(4)',
+const timeSlots = [
+  '5:00 PM',
+  '5:30 PM',
+  '6:00 PM',
+  '6:30 PM',
+  '7:00 PM',
+  '7:30 PM',
+  '8:00 PM',
+  '8:30 PM',
+  '9:00 PM',
+  '9:30 PM',
+  '10:00 PM',
+  '10:30 PM',
+  '11:00 PM',
+  '11:30 PM',
+  '12:00 AM',
+  '12:30 AM',
+  '1:00 AM',
+  '1:30 AM',
+  '2:00 AM',
 ];
+
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +52,6 @@ export function ContactSection() {
     date: '',
     timeIn: '',
     timeOut: '',
-    promoPackage: '',
     desiredRoom: '',
     specialRequests: '',
   });
@@ -291,7 +307,7 @@ export function ContactSection() {
                 </div>
 
                 <div>
-                  <Label htmlFor="date" className="text-gray-300">Date *</Label>
+                  <Label htmlFor="date" className="text-gray-300">Reservation Date *</Label>
                   <Input
                     id="date"
                     type="text"
@@ -307,43 +323,44 @@ export function ContactSection() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="timeIn" className="text-gray-300">Time In *</Label>
-                    <Input
-                      id="timeIn"
-                      type="time"
-                      value={formData.timeIn}
-                      onChange={(e) => handleInputChange('timeIn', e.target.value)}
-                      className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1"
-                      required
-                    />
+                    <Select value={formData.timeIn} onValueChange={(value) => handleInputChange('timeIn', value)}>
+                      <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
+                        <SelectValue placeholder="Select time" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-gray-700">
+                        {timeSlots.map((time) => (
+                          <SelectItem
+                            key={`in-${time}`}
+                            value={time}
+                            className="text-white focus:bg-yellow-400/20"
+                          >
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="timeOut" className="text-gray-300">Time Out *</Label>
-                    <Input
-                      id="timeOut"
-                      type="time"
-                      value={formData.timeOut}
-                      onChange={(e) => handleInputChange('timeOut', e.target.value)}
-                      className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1"
-                      required
-                    />
+                    <Select value={formData.timeOut} onValueChange={(value) => handleInputChange('timeOut', value)}>
+                      <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
+                        <SelectValue placeholder="Select time" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-gray-700">
+                        {timeSlots.map((time) => (
+                          <SelectItem
+                            key={`out-${time}`}
+                            value={time}
+                            className="text-white focus:bg-yellow-400/20"
+                          >
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="promoPackage" className="text-gray-300">Karaoke Room Promos</Label>
-                  <Select value={formData.promoPackage} onValueChange={(value) => handleInputChange('promoPackage', value)}>
-                    <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
-                      <SelectValue placeholder="Select a promo package (optional)" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-gray-700">
-                      {promoPackages.map((pkg) => (
-                        <SelectItem key={pkg} value={pkg} className="text-white focus:bg-yellow-400/20">
-                          {pkg}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
 
                 <div>
                   <Label htmlFor="desiredRoom" className="text-gray-300">Desired Room *</Label>
@@ -358,7 +375,7 @@ export function ContactSection() {
                           value={`${room.name} (Max ${room.capacity}) `}
                           className="text-white focus:bg-yellow-400/20"
                         >
-                          {room.name} (Max {room.capacity}) 
+                          {room.name} (Parties for {room.capacity}) 
                         </SelectItem>
                       ))}
                     </SelectContent>

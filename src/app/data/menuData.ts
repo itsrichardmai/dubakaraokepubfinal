@@ -203,22 +203,16 @@ export const happyHour = {
 };
 
 export const karaokeRooms = [
-  { name: 'Stella', capacity: '6', price: '$30/hr' },
-  { name: 'Corona', capacity: '6', price: '$30/hr' },
-  { name: 'Guinness', capacity: '6', price: '$30/hr' },
-  { name: 'Coors', capacity: '6', price: '$30/hr' },
-  { name: 'Heineken', capacity: '9', price: '$50/hr' },
-  { name: 'Brooklyn', capacity: '12', price: '$70/hr' },
-  { name: 'Budweiser', capacity: '12', price: '$70/hr' },
-  { name: 'Factory', capacity: '18', price: '$80/hr' },
-  { name: 'Lounge', capacity: '30', price: '$100/hr' },
+  { name: 'Small', capacity: '6', price: '$30/hr' },
+  { name: 'Heineken', capacity: '7-10', price: '$50/hr' },
+  { name: 'Brooklyn', capacity: '11-15', price: '$70/hr' },
+  { name: 'Budweiser', capacity: '11-15', price: '$70/hr' },
+  { name: 'Factory', capacity: '15-20', price: '$80/hr' },
+  { name: 'Lounge', capacity: '21+', price: '$100/hr' },
 ];
 
 export const karaokeRooms2 = [
-  { name: 'Stella', capacity: '6', price: '$20/hr' },
-  { name: 'Corona', capacity: '6', price: '$20/hr' },
-  { name: 'Guinness', capacity: '6', price: '$20/hr' },
-  { name: 'Coors', capacity: '6', price: '$20/hr' },
+  { name: 'Small', capacity: '6', price: '$20/hr' },
   { name: 'Heineken', capacity: '9', price: '$30/hr' },
   { name: 'Brooklyn', capacity: '12', price: '$40/hr' },
   { name: 'Budweiser', capacity: '12', price: '$40/hr' },

@@ -72,10 +72,10 @@ export function Navigation({ activeSection }: NavigationProps) {
               <div className="absolute inset-0 bg-yellow-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="hidden sm:block">
-              <div className="font-bold text-xl bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
-                DUBA
+              <div className="font-bold text-2xl bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Great Vibes', cursive" }}>
+                Duba
               </div>
-              <div className="text-xs text-gray-400">Karaoke & Pub</div>
+              <div className="text-xs text-white">Karaoke & Pub</div>
             </div>
           </motion.button>
 
