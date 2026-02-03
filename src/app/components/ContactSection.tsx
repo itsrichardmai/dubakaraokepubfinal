@@ -43,13 +43,19 @@ const timeSlots = [
 ];
 
 
+// Helper function to get today's date in YYYY-MM-DD format
+const getTodayDate = () => {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
+};
+
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    date: '',
+    date: getTodayDate(),
     timeIn: '',
     timeOut: '',
     desiredRoom: '',
@@ -69,14 +75,6 @@ export function ContactSection() {
     return value;
   };
 
-  const formatDate = (value: string) => {
-    const date = value.replace(/\D/g, '');
-    const match = date.match(/^(\d{0,2})(\d{0,2})(\d{0,4})$/);
-    if (match) {
-      return [match[1], match[2], match[3]].filter(Boolean).join('-');
-    }
-    return value;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -309,12 +307,11 @@ export function ContactSection() {
                   <Label htmlFor="date" className="text-gray-300">Reservation Date *</Label>
                   <Input
                     id="date"
-                    type="text"
+                    type="date"
                     value={formData.date}
-                    onChange={(e) => handleInputChange('date', formatDate(e.target.value))}
-                    className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1"
-                    placeholder="MM-DD-YYYY"
-                    maxLength={10}
+                    min={getTodayDate()}
+                    onChange={(e) => handleInputChange('date', e.target.value)}
+                    className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1 [&::-webkit-calendar-picker-indicator]:invert"
                     required
                   />
                 </div>

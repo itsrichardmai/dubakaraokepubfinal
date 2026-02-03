@@ -15,25 +15,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Format time to 12-hour format
-    const formatTime = (time24) => {
-      const [hours, minutes] = time24.split(':');
-      const hour = parseInt(hours, 10);
-      const ampm = hour >= 12 ? 'PM' : 'AM';
-      const hour12 = hour % 12 || 12;
-      return `${hour12}:${minutes} ${ampm}`;
+    // Format date to readable format (e.g., "February 3, 2026")
+    const formatDate = (dateString) => {
+      const dateObj = new Date(dateString + 'T00:00:00');
+      return dateObj.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
     };
 
-    const formattedTimeIn = formatTime(timeIn);
-    const formattedTimeOut = formatTime(timeOut);
+    const formattedDate = formatDate(date);
 
     const emailContent = `New reservation request from your website:
 
 Name: ${name}
 Phone: ${phone}
 Email: ${email}
-Date: ${date}
-Time: ${formattedTimeIn} - ${formattedTimeOut}
+Date: ${formattedDate}
+Time: ${timeIn} - ${timeOut}
 Room: ${desiredRoom}
 Promo Package: ${promoPackage || 'None selected'}
 Special Requests: ${specialRequests || 'None'}
