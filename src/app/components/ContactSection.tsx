@@ -104,6 +104,11 @@ export function ContactSection() {
         body: JSON.stringify(formData),
       });
 
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Server error. Please try again or call us directly.');
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -123,7 +128,8 @@ export function ContactSection() {
       });
     } catch (error) {
       console.error('Submission error:', error);
-      toast.error('Failed to send reservation. Please try again or call us directly.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send reservation. Please try again or call us directly.';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
