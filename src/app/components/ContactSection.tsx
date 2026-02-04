@@ -49,6 +49,13 @@ const getTodayDate = () => {
   return today.toISOString().split('T')[0];
 };
 
+// Helper function to get max date (2 years from now) in YYYY-MM-DD format
+const getMaxDate = () => {
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() + 2);
+  return maxDate.toISOString().split('T')[0];
+};
+
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -310,6 +317,7 @@ export function ContactSection() {
                     type="date"
                     value={formData.date}
                     min={getTodayDate()}
+                    max={getMaxDate()}
                     onChange={(e) => handleInputChange('date', e.target.value)}
                     className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1 [&::-webkit-calendar-picker-indicator]:invert"
                     required

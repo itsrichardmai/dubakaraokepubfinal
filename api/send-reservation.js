@@ -15,6 +15,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // Validate date format and value
+    const dateObj = new Date(date + 'T00:00:00');
+    if (isNaN(dateObj.getTime())) {
+      return res.status(400).json({ error: 'Invalid date format. Please select a valid date.' });
+    }
+
+    // Date must be today or in the future
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (dateObj < today) {
+      return res.status(400).json({ error: 'Reservation date must be today or a future date.' });
+    }
+
+    // Date must be within 2 years
+    const twoYearsFromNow = new Date();
+    twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
+    if (dateObj > twoYearsFromNow) {
+      return res.status(400).json({ error: 'Reservations cannot be made more than 2 years in advance.' });
+    }
+
     // Format date to readable format (e.g., "February 3, 2026")
     const formatDate = (dateString) => {
       const dateObj = new Date(dateString + 'T00:00:00');
