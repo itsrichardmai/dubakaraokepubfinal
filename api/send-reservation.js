@@ -15,6 +15,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // Valid time slots
+    const validTimeSlots = [
+      '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM',
+      '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM',
+      '11:00 PM', '11:30 PM', '12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM'
+    ];
+
+    // Validate time slots
+    if (!validTimeSlots.includes(timeIn) || !validTimeSlots.includes(timeOut)) {
+      return res.status(400).json({ error: 'Invalid time selection.' });
+    }
+
+    // Validate time out is after time in
+    const timeInIndex = validTimeSlots.indexOf(timeIn);
+    const timeOutIndex = validTimeSlots.indexOf(timeOut);
+    if (timeOutIndex <= timeInIndex) {
+      return res.status(400).json({ error: 'Time out must be later than time in.' });
+    }
+
     // Validate date format and value
     const dateObj = new Date(date + 'T00:00:00');
     if (isNaN(dateObj.getTime())) {
