@@ -6,19 +6,19 @@ import { Button } from './ui/button';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const galleryItems = [
-  { type: 'image', url: '/gallery/galleryimg0.png', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg0.png', title: 'Duba Karaoke Pub' },
   { type: 'image', url: '/gallery/galleryimg1.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg3.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg6.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg7.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg8.png', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg10.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg11.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg12.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg13.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg14.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg15.jpg', title: 'Karaoke Room' },
-  { type: 'image', url: '/gallery/galleryimg16.jpg', title: 'Karaoke Room' },
+  { type: 'image', url: '/gallery/galleryimg3.png', title: 'Coors Room' },
+  { type: 'image', url: '/gallery/galleryimg6.png', title: 'Guiness Room' },
+  { type: 'image', url: '/gallery/galleryimg7.png', title: 'Brooklyn Room' },
+  { type: 'image', url: '/gallery/galleryimg8.png', title: 'Dining Room & Bar ' },
+  { type: 'image', url: '/gallery/galleryimg10.jpg', title: 'Lounge' },
+  { type: 'image', url: '/gallery/galleryimg11.jpg', title: 'Lounge' },
+  { type: 'image', url: '/gallery/galleryimg12.jpg', title: 'Heineken' },
+  { type: 'image', url: '/gallery/galleryimg13.jpg', title: 'Brooklyn Brewery' },
+  { type: 'image', url: '/gallery/galleryimg14.jpg', title: 'Budweiser Room' },
+  { type: 'image', url: '/gallery/galleryimg15.jpg', title: 'Budweiser Room' },
+  { type: 'image', url: '/gallery/galleryimg16.jpg', title: 'Guiness Room' },
 ];
 
 export function GallerySection() {
