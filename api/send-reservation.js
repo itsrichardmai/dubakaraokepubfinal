@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     const timeInIndex = validTimeSlots.indexOf(timeIn);
     const timeOutIndex = validTimeSlots.indexOf(timeOut);
     if (timeOutIndex <= timeInIndex) {
-      return res.status(400).json({ error: 'Time out must be later than time in.' });
+      return res.status(400).json({ error: 'Time out must be later than Time in.' });
     }
 
     // Validate date format and value
@@ -74,7 +74,6 @@ Email: ${email}
 Date: ${formattedDate}
 Time: ${timeIn} - ${timeOut}
 Room: ${desiredRoom}
-Promo Package: ${promoPackage || 'None selected'}
 Special Requests: ${specialRequests || 'None'}
 
 ---
