@@ -46,7 +46,7 @@ export function MenuSection() {
             </TabsTrigger>
             <TabsTrigger value="packages" className="flex-shrink-0 whitespace-nowrap text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Users className="mr-2 h-4 w-4" />
-              Packages
+              Packages (Weekend)
             </TabsTrigger>
           </TabsList>
 
@@ -220,8 +220,8 @@ export function MenuSection() {
                 <h3 className="text-3xl font-bold mb-6 text-yellow-400 text-center">
                   Private Room Packages
                 </h3>
-                <p className="text-gray-300 mb-8 text-center strong font-bold">
-                  Includes 3 Hours of Karaoke • Appetizers & Entrees • Full Bar Service
+                <p className="text-gray-300 mb-8 text-center">
+                  Your room. Your night. Food and drinks included. 
                 </p>
 
                 <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -278,7 +278,7 @@ export function MenuSection() {
             h-full">
                       <Users className="mx-auto mb-3 text-yellow-400" size={32} />
                       <h4 className="text-white font-bold text-xl mb-2">Lounge</h4>
-                      <p className="text-gray-400 text-sm mb-4">&gt;21 people</p>
+                      <p className="text-gray-400 text-sm mb-4">&gt;21 guests</p>
                       <p className="text-yellow-400 font-bold text-2xl mb-4">$350</p>
                       <div className="text-gray-300 text-sm space-y-2 border-t border-yellow-500/20 pt-4">
                         <p>• 3 hours Karaoke</p>
@@ -291,6 +291,9 @@ export function MenuSection() {
 
                 <p className="text-center text-gray-400 mt-8 text-sm">
                   * 20% autogratuity and tax applies to all bills. Call for availability and booking.
+                </p>
+                <p className="text-center text-gray-400 mt-8 text-sm">
+                  * Promotion only valid on weekend (Friday & Saturday)
                 </p>
               </Card>
             </TabsContent>
