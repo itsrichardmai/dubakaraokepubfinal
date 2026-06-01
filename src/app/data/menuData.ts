@@ -201,16 +201,17 @@ export const happyHour = {
   ],
   karaokeDiscount: 'Discounted Karaoke (Sunday - Thursday)',
 };
-
+// Weekend pricing 
 export const karaokeRooms = [
   { name: 'Small', capacity: '6', price: '$30/hr' },
   { name: 'Heineken', capacity: '7-10', price: '$50/hr' },
   { name: 'Brooklyn', capacity: '11-15', price: '$70/hr' },
   { name: 'Budweiser', capacity: '11-15', price: '$70/hr' },
-  { name: 'Factory', capacity: '15-20', price: '$80/hr' },
+  { name: 'Factory', capacity: '16-20', price: '$80/hr' },
   { name: 'Lounge', capacity: '21+', price: '$100/hr' },
 ];
 
+// Weekday pricing
 export const karaokeRooms2 = [
   { name: 'Small', capacity: '6', price: '$20/hr' },
   { name: 'Heineken', capacity: '9', price: '$30/hr' },

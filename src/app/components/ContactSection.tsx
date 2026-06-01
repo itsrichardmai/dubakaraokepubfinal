@@ -426,6 +426,9 @@ export function ContactSection() {
                   * No outside food or drinks allowed. A gratuity of 20% will be added to Karaoke room bookings. Everyone must be 21+ to enter on Fridays/Saturdays
                 </p>
                 <p className="text-gray-400 text-xs text-center">
+                  * Reservations for small rooms are not accepted for Friday/Saturday. They are first come first serve.
+                </p>
+                <p className="text-gray-400 text-xs text-center">
                   * Submitting reservation confirms your compliance to our policies. 
                 </p>
               </form>

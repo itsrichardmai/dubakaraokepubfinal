@@ -20,14 +20,15 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background with gradient overlay */}
+      {/* Background with gradient overlay
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black z-0" />
       <div 
         className="absolute inset-0 opacity-30 z-0 bg-cover bg-center"
         style={{
           backgroundImage: 'url(/hero-background.jpg)',
         }}
-      />
+      /> */}
+      <div className="absolute inset-0 bg-black z-0" />
       
       {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden z-0">
@@ -112,7 +113,7 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-yellow-400/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
             <div className="relative bg-gradient-to-br from-red-900/30 to-black border-2 border-red-500/30 rounded-2xl p-6 backdrop-blur-sm">
               <ImageWithFallback
-                src="/bbq-chicken-promo.png"
+                src="/friday-night-public-karaoke-promo.png"
                 alt="Introducing bb.q CHICKEN - No.1 Korean Chicken"
                 className="w-full rounded-lg"
                 width={800}

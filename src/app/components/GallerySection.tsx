@@ -63,7 +63,7 @@ export function GallerySection() {
             className="mb-8"
           >
             <Card className="bg-black border-yellow-500/20 overflow-hidden">
-              <div className="relative aspect-video group cursor-pointer" onClick={() => openModal(currentIndex)}>
+              <div className="relative aspect-video max-h-[500px] group cursor-pointer" onClick={() => openModal(currentIndex)}>
                 <ImageWithFallback
                   src={galleryItems[currentIndex].url}
                   alt={galleryItems[currentIndex].title}
