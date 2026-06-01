@@ -23,29 +23,28 @@ export function MenuSection() {
         </motion.div>
 
         <Tabs defaultValue="food" className="max-w-7xl mx-auto">
-          <TabsList className="grid w-full grid-cols-6 mb-8 bg-gray-900/50 border border-yellow-500/20">
+          <TabsList className="flex w-full overflow-x-auto scrollbar-hide mb-8 bg-gray-900/50 border border-yellow-500/20">
             <TabsTrigger value="food" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <ChefHat className="mr-2 h-4 w-4" />
               Food
             </TabsTrigger>
-            <TabsTrigger value="drinks" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="drinks" className="flex-shrink-0 whitespace-nowrap text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Wine className="mr-2 h-4 w-4" />
               Drinks
             </TabsTrigger>
-            <TabsTrigger value="happyhour" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="happyhour" className="flex-shrink-0 whitespace-nowrap text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Beer className="mr-2 h-4 w-4" />
               Happy Hour
             </TabsTrigger>
-            <TabsTrigger value="karaoke" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="karaoke" className="flex-shrink-0 whitespace-nowrap text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Mic2 className="mr-2 h-4 w-4" />
               Karaoke (Weekend)
             </TabsTrigger>
-            <TabsTrigger value="karaokeweekday" className="text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
+            <TabsTrigger value="karaokeweekday" className="flex-shrink-0 whitespace-nowrap text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Mic2 className="mr-2 h-4 w-4" />
               Karaoke (Weekday)
             </TabsTrigger>
-            <TabsTrigger value="packages" className="text-gray-300 data-[state=active]:bg-yellow-400
-            data-[state=active]:text-black">
+            <TabsTrigger value="packages" className="flex-shrink-0 whitespace-nowrap text-gray-300 data-[state=active]:bg-yellow-400 data-[state=active]:text-black">
               <Users className="mr-2 h-4 w-4" />
               Packages
             </TabsTrigger>
