@@ -117,7 +117,7 @@ export function HeroSection() {
             <div className="relative bg-gradient-to-br from-red-900/30 to-black border-2 border-red-500/30 rounded-2xl p-6 backdrop-blur-sm">
               <ImageWithFallback
                 eager={true}
-                src="/friday-night-public-karaoke-promo.png"
+                src="/friday-night-public-karaoke-promo-optimized.webp"
                 alt="Introducing bb.q CHICKEN - No.1 Korean Chicken"
                 className="w-full rounded-lg"
                 width={800}

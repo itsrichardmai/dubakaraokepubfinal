@@ -65,7 +65,7 @@ export function Navigation({ activeSection }: NavigationProps) {
           >
             <div className="relative">
               <img 
-                src="/logo-icon.png" 
+                src="/logo-icon.webp"
                 alt="Duba Logo" 
                 className="h-12 w-12 object-contain transition-transform duration-300 group-hover:rotate-6" 
               />
