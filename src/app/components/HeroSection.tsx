@@ -70,6 +70,8 @@ export function HeroSection() {
             alt="Duba" 
             className="mx-auto mb-8 h-32 drop-shadow-2xl"
             fetchPriority="high"
+            width={281}
+            height={150}
             animate={{
               y: [0, -10, 0],
             }}
