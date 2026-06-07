@@ -79,6 +79,7 @@ Special Requests: ${specialRequests || 'None'}
 ---
 Submitted via DubaKaraoke.com`;
 
+    // Send notification email to business
     const { data, error } = await resend.emails.send({
       from: 'Duba Reservations <reservations@dubalounge.com>',
       to: 'duba.elkins@gmail.com',
@@ -90,6 +91,138 @@ Submitted via DubaKaraoke.com`;
     if (error) {
       console.error('Resend error:', error);
       return res.status(500).json({ error: 'Failed to send email' });
+    }
+
+    // Send confirmation email to customer
+    const customerEmailHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation Confirmation</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #0a0a0a;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse; background-color: #1a1a1a; border-radius: 8px; overflow: hidden;">
+          <!-- Header with Logo -->
+          <tr>
+            <td style="padding: 40px 30px; text-align: center; background-color: #0a0a0a;">
+              <img src="https://www.dubalounge.com/logo-icon.webp" alt="Duba Logo" style="width: 100px; height: auto; margin-bottom: 20px;">
+              <h1 style="color: #F5C400; margin: 0; font-size: 28px; font-weight: bold;">Your Duba Reservation Confirmation!</h1>
+            </td>
+          </tr>
+
+          <!-- Welcome Message -->
+          <tr>
+            <td style="padding: 30px 30px 20px; color: #ffffff; font-size: 16px; line-height: 1.6;">
+              <p style="margin: 0 0 15px;">Hello ${name},</p>
+              <p style="margin: 0;">Your reservation has been received! Please expect a Duba associate to contact you within 24 hours.</p>
+            </td>
+          </tr>
+
+          <!-- Reservation Details Table -->
+          <tr>
+            <td style="padding: 0 30px 30px;">
+              <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #0a0a0a; border-radius: 6px; overflow: hidden;">
+                <tr>
+                  <td colspan="2" style="padding: 15px; background-color: #F5C400; color: #0a0a0a; font-weight: bold; font-size: 18px;">
+                    Reservation Details
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a; width: 40%;">Name:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${name}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Phone:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${phone}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Email:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${email}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Date:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${formattedDate}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Time In:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${timeIn}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Time Out:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${timeOut}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Desired Room:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${desiredRoom}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold;">Special Requests:</td>
+                  <td style="padding: 12px 15px; color: #ffffff;">${specialRequests || 'None'}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Contact Information -->
+          <tr>
+            <td style="padding: 0 30px 30px;">
+              <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #0a0a0a; border-radius: 6px; padding: 20px;">
+                <tr>
+                  <td style="padding: 10px; text-align: center;">
+                    <p style="color: #F5C400; font-weight: bold; margin: 0 0 10px; font-size: 16px;">Questions? Contact Us</p>
+                    <p style="color: #ffffff; margin: 5px 0;">📞 <a href="tel:215-635-3822" style="color: #F5C400; text-decoration: none;">215-635-3822</a></p>
+                    <p style="color: #ffffff; margin: 5px 0;">📧 <a href="mailto:duba.elkins@gmail.com" style="color: #F5C400; text-decoration: none;">duba.elkins@gmail.com</a></p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Sister Restaurant Section -->
+          <tr>
+            <td style="padding: 0 30px 30px;">
+              <table role="presentation" style="width: 100%; border-collapse: collapse; background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 6px; border: 2px solid #F5C400;">
+                <tr>
+                  <td style="padding: 20px; text-align: center;">
+                    <p style="color: #F5C400; font-weight: bold; margin: 0 0 10px; font-size: 18px;">Love Korean Food?</p>
+                    <p style="color: #ffffff; margin: 0 0 15px; font-size: 14px;">Check out our sister restaurant for award-winning authentic Korean cuisine!</p>
+                    <a href="https://duburestaurant.com" style="display: inline-block; padding: 12px 30px; background-color: #F5C400; color: #0a0a0a; text-decoration: none; font-weight: bold; border-radius: 4px; font-size: 16px;">Visit Dubu Restaurant</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px; text-align: center; background-color: #0a0a0a; border-top: 1px solid #2a2a2a;">
+              <p style="color: #666666; margin: 0 0 10px; font-size: 12px;">This is an auto-generated email, do not reply.</p>
+              <p style="color: #666666; margin: 0; font-size: 12px;">1333 W. Cheltenham Ave, Fl Basement, Elkins Park, PA 19027</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+    `;
+
+    const { error: customerEmailError } = await resend.emails.send({
+      from: 'Duba Reservations <reservations@dubalounge.com>',
+      to: email,
+      subject: 'Your Duba Reservation Confirmation!',
+      html: customerEmailHtml,
+    });
+
+    if (customerEmailError) {
+      console.error('Customer email error:', customerEmailError);
+      // Don't fail the request if customer email fails - business email already sent
     }
 
     return res.status(200).json({ success: true, id: data.id });
