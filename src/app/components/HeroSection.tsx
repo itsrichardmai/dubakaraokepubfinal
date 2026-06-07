@@ -23,7 +23,7 @@ export function HeroSection() {
       content: (
         <div className="relative w-full h-full min-h-[400px] flex items-center justify-center">
           <img
-            src="/korean-food-collage.png"
+            src="/korean-food-collage.webp"
             alt="Korean Food Collage"
             className="absolute inset-0 w-full h-full object-cover rounded-lg"
           />
