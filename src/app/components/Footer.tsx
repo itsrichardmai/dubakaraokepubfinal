@@ -86,8 +86,36 @@ export function Footer() {
             </motion.div>
           </div>
 
+          {/* Sister Restaurant Link */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-8 text-center"
+          >
+            <a
+              href="https://duburestaurant.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-400/10 to-yellow-600/10 border-2 border-yellow-400/50 rounded-lg hover:border-yellow-400 hover:bg-yellow-400/20 transition-all group"
+            >
+              <span className="text-yellow-400 font-semibold group-hover:text-yellow-300">
+                Visit our sister restaurant: Dubu Restaurant
+              </span>
+              <svg
+                className="w-4 h-4 text-yellow-400 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </motion.div>
+
           {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/20 to-transparent mb-6" />
+          <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/20 to-transparent mb-6 mt-8" />
 
           {/* Bottom Footer */}
           <div className="text-center space-y-2">
