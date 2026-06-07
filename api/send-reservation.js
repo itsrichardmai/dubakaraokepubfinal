@@ -109,8 +109,8 @@ Submitted via DubaKaraoke.com`;
         <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse; background-color: #1a1a1a; border-radius: 8px; overflow: hidden;">
           <!-- Header with Logo -->
           <tr>
-            <td style="padding: 40px 30px; text-align: center; background-color: #0a0a0a;">
-              <img src="https://www.dubalounge.com/logo-icon.webp" alt="Duba Logo" style="width: 100px; height: auto; margin-bottom: 20px;">
+            <td style="padding: 40px 30px 0 30px; text-align: center; background-color: #0a0a0a; line-height: 0; font-size: 0;">
+              <img src="https://www.dubalounge.com/logo-icon.webp" alt="Duba Logo" style="width: 100px; height: auto; display: block; margin: 0 auto 20px;">
               <h1 style="color: #F5C400; margin: 0; font-size: 28px; font-weight: bold;">Your Duba Reservation Confirmation!</h1>
             </td>
           </tr>
