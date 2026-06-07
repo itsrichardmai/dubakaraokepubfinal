@@ -38,7 +38,7 @@ export function HeroSection() {
               rel="noopener noreferrer"
               className="inline-block bg-yellow-400 text-black hover:bg-yellow-500 font-semibold px-8 py-3 rounded-lg transition-colors"
             >
-              Visit Dubu Restaurant
+              Dubu Restaurant
             </a>
           </div>
         </div>
