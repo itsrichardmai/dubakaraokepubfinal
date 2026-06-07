@@ -107,23 +107,22 @@ Submitted via DubaKaraoke.com`;
     <tr>
       <td align="center" style="padding: 40px 20px;">
         <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse; background-color: #1a1a1a; border-radius: 8px; overflow: hidden;">
-          <!-- Header with Logo -->
           <tr>
             <td style="padding: 40px 30px 0 30px; text-align: center; background-color: #0a0a0a; line-height: 0; font-size: 0;">
-              <img src="https://www.dubalounge.com/logo-icon.webp" alt="Duba Logo" style="width: 100px; height: auto; display: block; margin: 0 auto 20px;">
+              <img src="https://www.dubalounge.com/logo-icon.webp" alt="Duba Logo" style="width: 100px; height: auto; display: block; margin: 0 auto;">
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 30px 24px 30px; text-align: center; background-color: #0a0a0a;">
               <h1 style="color: #F5C400; margin: 0; font-size: 28px; font-weight: bold;">Your Duba Reservation Confirmation!</h1>
             </td>
           </tr>
-
-          <!-- Welcome Message -->
           <tr>
             <td style="padding: 30px 30px 20px; color: #ffffff; font-size: 16px; line-height: 1.6;">
               <p style="margin: 0 0 15px;">Hello ${name},</p>
               <p style="margin: 0;">Your reservation has been received! Please expect a Duba associate to contact you within 24 hours.</p>
             </td>
           </tr>
-
-          <!-- Reservation Details Table -->
           <tr>
             <td style="padding: 0 30px 30px;">
               <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #0a0a0a; border-radius: 6px; overflow: hidden;">
@@ -167,8 +166,6 @@ Submitted via DubaKaraoke.com`;
               </table>
             </td>
           </tr>
-
-          <!-- Contact Information -->
           <tr>
             <td style="padding: 0 30px 30px;">
               <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #0a0a0a; border-radius: 6px; padding: 20px;">
@@ -182,8 +179,6 @@ Submitted via DubaKaraoke.com`;
               </table>
             </td>
           </tr>
-
-          <!-- Sister Restaurant Section -->
           <tr>
             <td style="padding: 0 30px 30px;">
               <table role="presentation" style="width: 100%; border-collapse: collapse; background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); border-radius: 6px; border: 2px solid #F5C400;">
@@ -197,8 +192,6 @@ Submitted via DubaKaraoke.com`;
               </table>
             </td>
           </tr>
-
-          <!-- Footer -->
           <tr>
             <td style="padding: 30px; text-align: center; background-color: #0a0a0a; border-top: 1px solid #2a2a2a;">
               <p style="color: #666666; margin: 0 0 10px; font-size: 12px;">This is an auto-generated email, do not reply.</p>
@@ -211,7 +204,7 @@ Submitted via DubaKaraoke.com`;
   </table>
 </body>
 </html>
-    `;
+`;
 
     const { error: customerEmailError } = await resend.emails.send({
       from: 'Duba Reservations <reservations@dubalounge.com>',
