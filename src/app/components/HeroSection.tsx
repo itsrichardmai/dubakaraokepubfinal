@@ -1,16 +1,70 @@
 import { motion } from 'motion/react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useState } from 'react';
 
 export function HeroSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      type: 'image' as const,
+      src: '/friday-night-public-karaoke-promo.webp',
+      alt: 'Friday Night Public Karaoke',
+    },
+    {
+      type: 'image' as const,
+      src: '/bbq-chicken-promo.webp',
+      alt: 'BB.Q Chicken Promo',
+    },
+    {
+      type: 'custom' as const,
+      content: (
+        <div className="relative w-full h-full min-h-[400px] flex items-center justify-center">
+          <img
+            src="/korean-food-collage.webp"
+            alt="Korean Food Collage"
+            className="absolute inset-0 w-full h-full object-cover rounded-lg"
+          />
+          <div className="absolute inset-0 bg-black/60 rounded-lg" />
+          <div className="relative z-10 text-center px-6 py-8">
+            <p className="text-white text-2xl md:text-3xl font-semibold mb-6 max-w-2xl">
+              Check out our sister restaurant for award winning authentic Korean cuisine
+            </p>
+            <a
+              href="https://duburestaurant.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-yellow-400 text-black hover:bg-yellow-500 font-semibold px-8 py-3 rounded-lg transition-colors"
+            >
+              Dubu Restaurant
+            </a>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const previousSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
+
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
@@ -28,6 +82,8 @@ export function HeroSection() {
           backgroundImage: 'url(/hero-background.jpg)',
         }}
       /> */}
+
+      {/* plain black background */}
       <div className="absolute inset-0 bg-black z-0" />
       
       {/* Animated gradient orbs */}
@@ -105,7 +161,7 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* BB.Q Chicken Promo */}
+        {/* Promo Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,16 +169,64 @@ export function HeroSection() {
           className="mb-8 max-w-3xl mx-auto"
         >
           <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-yellow-400/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-            <div className="relative bg-gradient-to-br from-red-900/30 to-black border-2 border-red-500/30 rounded-2xl p-6 backdrop-blur-sm">
-              <ImageWithFallback
-                eager={true}
-                src="/friday-night-public-karaoke-promo-optimized.webp"
-                alt="Introducing bb.q CHICKEN - No.1 Korean Chicken"
-                className="w-full rounded-lg"
-                width={800}
-                height={400}
-              />
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+            <div className="relative bg-gradient-to-br from-yellow-900/20 to-black border-2 border-yellow-500/30 rounded-2xl p-6 backdrop-blur-sm">
+              {/* Carousel Content */}
+              <div className="relative overflow-hidden rounded-lg">
+                {slides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`transition-opacity duration-500 ${
+                      index === currentSlide ? 'opacity-100' : 'opacity-0 absolute inset-0'
+                    }`}
+                  >
+                    {slide.type === 'image' ? (
+                      <ImageWithFallback
+                        eager={index === 0}
+                        src={slide.src}
+                        alt={slide.alt}
+                        className="w-full h-auto rounded-lg"
+                        // width={800}
+                        // height={400}
+                      />
+                    ) : (
+                      slide.content
+                    )}
+                  </div>
+                ))}
+
+                {/* Navigation Arrows */}
+                <button
+                  onClick={previousSlide}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-yellow-400 rounded-full p-2 transition-all z-20"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-yellow-400 rounded-full p-2 transition-all z-20"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+
+              {/* Dot Indicators */}
+              <div className="flex justify-center gap-2 mt-4">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === currentSlide
+                        ? 'bg-yellow-400 w-8'
+                        : 'bg-gray-600 hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
