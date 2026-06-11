@@ -50,32 +50,46 @@ export function AboutSection() {
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Main Description */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 backdrop-blur-sm p-8 md:p-12">
-              <div className="prose prose-invert prose-lg max-w-none">
-                <p className="text-gray-300 leading-relaxed mb-6"> 
-                  At Duba, we've created a unique fusion destination that celebrates Korean culture, cuisine, and entertainment 
-                  in the heart of Elkins Park, PA.
-                </p>
-                <p className="text-gray-300 leading-relaxed mb-6"> Now featuring <span className="text-red-400 font-semibold">bb.q CHICKEN</span> - 
-                  the No.1 Korean Chicken famous in 57 countries worldwide!
-                </p>
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  We are a new state-of-the-art karaoke lounge with the finest karaoke entertainment equipment and an extensive library 
-                  of Korean, English songs updated monthly. We feature 9 private rooms, each with unique themes and varying 
-                  sizes for groups of 6 to 35. All rooms offer full bar service for your convenience.
-                </p>
-                <p className="text-gray-300 leading-relaxed">
-                  With premium sound systems, comfortable seating, and a vibrant atmosphere, Duba is the perfect destination for 
-                  celebrations, date nights, and unforgettable evenings with friends.
-                </p>
-              </div>
-            </Card>
-          </motion.div>
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 backdrop-blur-sm p-8 md:p-12">
+            <p className="text-gray-300 leading-relaxed mb-8 text-lg">
+              At Duba, we've created a unique fusion destination that celebrates Korean culture, cuisine, and entertainment
+              in the heart of Elkins Park, PA. Now featuring{' '}
+              <span className="text-red-400 font-semibold">bb.q CHICKEN</span> — the No.1 Korean Chicken famous in 57 countries worldwide.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                { icon: 'DoorOpen', label: '9 Private Rooms', sub: 'Unique themes, groups of 6–35' },
+                { icon: 'Wine', label: 'Full Bar Service', sub: 'In every room, all night' },
+                { icon: 'Music', label: 'Korean & English Songs', sub: 'Extensive library, updated monthly' },
+                { icon: 'Speaker', label: 'Premium Sound Systems', sub: 'State-of-the-art equipment' },
+                { icon: 'PartyPopper', label: 'Perfect for Celebrations', sub: 'Birthdays, date nights, groups' },
+                { icon: 'Flame', label: 'bb.q Chicken', sub: 'No.1 Korean chicken, 57 countries' },
+              ].map((feature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.05 * i }}
+                  className="flex items-start gap-4"
+                >
+                  <div className="w-10 h-10 rounded-full bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+                    <Star className="text-yellow-400" size={18} />
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-sm mb-1">{feature.label}</p>
+                    <p className="text-gray-400 text-sm">{feature.sub}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
 
           {/* Awards Section */}
           <motion.div
