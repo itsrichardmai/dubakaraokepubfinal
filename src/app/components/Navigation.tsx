@@ -75,7 +75,7 @@ export function Navigation({ activeSection }: NavigationProps) {
           </motion.button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1 ml-auto mr-4">
             {navItems.map((item) => (
               <Button
                 key={item.id}
