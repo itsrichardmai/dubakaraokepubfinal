@@ -17,13 +17,9 @@ export function Footer() {
               viewport={{ once: true }}
               className="text-center md:text-left"
             >
-              <div className="flex items-center gap-3 justify-center md:justify-start mb-4">
-                <img src="/logo-icon.png" alt="Duba Logo" className="h-12 w-12 object-contain" />
-                <div>
-                  <div className="text-yellow-400 font-bold text-2xl" style={{ fontFamily: "'Yeseva One', serif" }}>DUBA</div>
-                  <div className="text-gray-400 text-sm">Karaoke & Pub</div>
-                </div>
-              </div>
+              <div className="flex items-center justify-center md:justify-start mb-4">
+              <img src="/logo-icon.webp" alt="Duba Logo" className="h-16 w-auto object-contain" />
+            </div>
               <p className="text-gray-500 text-sm">
                 Elkins Park's favorite destination for Korean BBQ and karaoke entertainment.
               </p>
