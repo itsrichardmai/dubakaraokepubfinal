@@ -94,13 +94,13 @@ Submitted via DubaKaraoke.com`;
     }
 
     // Send confirmation email to customer
-    const customerEmailHtml = `
+const customerEmailHtml = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reservation Confirmation</title>
+  <title>Reservation Request Received</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #0a0a0a;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -114,13 +114,14 @@ Submitted via DubaKaraoke.com`;
           </tr>
           <tr>
             <td style="padding: 16px 30px 24px 30px; text-align: center; background-color: #0a0a0a;">
-              <h1 style="color: #F5C400; margin: 0; font-size: 28px; font-weight: bold;">Your Duba Reservation Confirmation!</h1>
+              <h1 style="color: #F5C400; margin: 0; font-size: 26px; font-weight: bold;">We Have Received Your Reservation Request!</h1>
             </td>
           </tr>
           <tr>
             <td style="padding: 30px 30px 20px; color: #ffffff; font-size: 16px; line-height: 1.6;">
               <p style="margin: 0 0 15px;">Hello ${name},</p>
-              <p style="margin: 0;">Your reservation has been received! Please expect a Duba associate to contact you within 24 hours.</p>
+              <p style="margin: 0 0 15px;">Thank you for submitting your reservation request at Duba Karaoke Pub!</p>
+              <p style="margin: 0; color: #cccccc;"><strong style="color: #ffffff;">Please note: your reservation is not yet confirmed.</strong> A Duba associate will contact you within 24 hours to confirm whether your requested time and room are available. If we are unable to accommodate your exact request, we will work with you to find the best available alternative.</p>
             </td>
           </tr>
           <tr>
@@ -128,7 +129,7 @@ Submitted via DubaKaraoke.com`;
               <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #0a0a0a; border-radius: 6px; overflow: hidden;">
                 <tr>
                   <td colspan="2" style="padding: 15px; background-color: #F5C400; color: #0a0a0a; font-weight: bold; font-size: 18px;">
-                    Reservation Details
+                    Reservation Request Details
                   </td>
                 </tr>
                 <tr>
@@ -209,7 +210,7 @@ Submitted via DubaKaraoke.com`;
     const { error: customerEmailError } = await resend.emails.send({
       from: 'Duba Reservations <reservations@dubalounge.com>',
       to: email,
-      subject: 'Your Duba Reservation Confirmation!',
+      subject: 'Your Duba Reservation Request Has Been Received',
       html: customerEmailHtml,
     });
 
