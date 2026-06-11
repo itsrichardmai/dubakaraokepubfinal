@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Star } from 'lucide-react';
+import { Star, Trophy } from 'lucide-react';
 import { Card } from './ui/card';
 import { useEffect } from "react";
 import { ElfsightWidget } from "./ElfsightWidget";
@@ -64,7 +64,7 @@ export function AboutSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 { icon: 'DoorOpen', label: '9 Private Rooms', sub: 'Unique themes, groups of 6–35' },
-                { icon: 'Wine', label: 'Full Bar Service', sub: 'In every room, all night' },
+                { icon: 'Wine', label: 'Full Bar Service', sub: 'Every room and table (ages 21+)' },
                 { icon: 'Music', label: 'Korean & English Songs', sub: 'Extensive library, updated monthly' },
                 { icon: 'Speaker', label: 'Premium Sound Systems', sub: 'State-of-the-art equipment' },
                 { icon: 'PartyPopper', label: 'Perfect for Celebrations', sub: 'Birthdays, date nights, groups' },
@@ -93,42 +93,41 @@ export function AboutSection() {
 
           {/* Awards Section */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <h3
+            className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent"
+            style={{ fontFamily: "'Yeseva One', serif" }}
           >
-            <h3 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Yeseva One', serif" }}>
-              Awards & Recognitions
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              {awards.map((award, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.1 * index }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                >
-                  <Card className="bg-gradient-to-br from-yellow-400/10 to-transparent border-yellow-500/30 p-6 h-full hover:border-yellow-400 transition-all duration-300">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-yellow-400/20 flex items-center justify-center">
-                          <Star className="text-yellow-400" size={24} fill="currentColor" />
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-yellow-400 font-semibold text-sm mb-2">{award.year}</div>
-                        <h4 className="text-white font-semibold text-lg mb-2">{award.title}</h4>
-                        <p className="text-gray-400 text-sm">{award.organization}</p>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+            Awards & Recognitions
+          </h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            {awards.map((award, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.1 * index }}
+                whileHover={{ scale: 1.03, y: -4 }}
+              >
+                <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 p-6 h-full hover:border-yellow-400 transition-all duration-300 border-t-2 border-t-yellow-400">
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-xs font-semibold bg-yellow-400/10 text-yellow-600 px-3 py-1 rounded-full">
+                      {award.year}
+                    </span>
+                    <Trophy className="text-yellow-400" size={22} />
+                  </div>
+                  <h4 className="text-white font-semibold text-lg mb-1">{award.title}</h4>
+                  <p className="text-gray-400 text-sm">{award.organization}</p>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
           {/* Reviews Widget */}
 <div>

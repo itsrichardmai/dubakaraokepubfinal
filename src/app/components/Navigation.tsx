@@ -63,20 +63,15 @@ export function Navigation({ activeSection }: NavigationProps) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="relative">
-              <img 
-                src="/logo-icon.webp"
-                alt="Duba Logo" 
-                className="h-12 w-12 object-contain transition-transform duration-300 group-hover:rotate-6" 
-              />
-              <div className="absolute inset-0 bg-yellow-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <div className="hidden sm:block">
-              <div className="font-bold text-2xl bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Yeseva One', serif" }}>
-                Duba
-              </div>
-              <div className="text-xs text-white">Karaoke & Pub</div>
-            </div>
+            <div className="relative flex flex-col items-center">
+            <img 
+              src="/logo-icon.webp" 
+              alt="Duba Logo" 
+              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:rotate-6" 
+            />
+            <div className="absolute inset-0 bg-yellow-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="text-xs text-gray-400 mt-1 hidden sm:block">Karaoke & Pub</div>
+          </div>
           </motion.button>
 
           {/* Desktop Navigation */}
