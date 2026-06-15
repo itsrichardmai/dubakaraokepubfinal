@@ -86,6 +86,26 @@ function getESTTime(isoString) {
   });
 }
 
+// Convert a TIME_SLOT string to UTC minutes for a given date
+// TIME_SLOTS are EST times (America/New_York = UTC-4 in summer)
+function slotToUTCMinutes(slot, dateStr) {
+  const EST_OFFSET = 4 * 60; // EDT is UTC-4 in summer
+  const [time, period] = slot.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+  // Handle after midnight (next day)
+  if (period === 'AM' && hours < 5) hours += 24;
+  const estMinutes = hours * 60 + minutes;
+  return estMinutes + EST_OFFSET; // convert to UTC
+}
+
+// Get event start/end in UTC minutes directly from ISO string
+function isoToUTCMinutes(isoString) {
+  const date = new Date(isoString);
+  return date.getUTCHours() * 60 + date.getUTCMinutes();
+}
+
 function isSlotWithinEventWindow(slotTime, bufferedStartTime, bufferedEndTime, logDetails = false) {
   const slotMinutes = timeToMinutes(slotTime);
   const startMinutes = timeToMinutes(bufferedStartTime);
@@ -222,18 +242,21 @@ export default async function handler(req, res) {
           continue;
         }
 
-        // NO BUFFER for small rooms - use exact event times
-        const startTime = getESTTime(eventStart);
-        const endTime = getESTTime(eventEnd);
+        // NO BUFFER for small rooms - use exact event times in UTC
+        const eventStartUTC = isoToUTCMinutes(eventStart); // NO buffer
+        const eventEndUTC = isoToUTCMinutes(eventEnd); // NO buffer
 
-        console.error('Event times (NO buffer for small rooms):', startTime, '-', endTime);
+        console.error('Event ISO times (small room):', eventStart, '|', eventEnd);
+        console.error('Event UTC minutes (NO buffer):', eventStartUTC, '-', eventEndUTC);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (isSlotWithinEventWindow(slot, startTime, endTime, true)) {
+          const slotUTC = slotToUTCMinutes(slot, date);
+          console.error(`  Checking slot ${slot} (UTC: ${slotUTC} mins) against range ${eventStartUTC}-${eventEndUTC}`);
+          if (slotUTC >= eventStartUTC && slotUTC < eventEndUTC) {
             slotCount[slot]++;
             blockedSlotsForThisEvent.push(slot);
-            console.error(`Slot ${slot} count increased to ${slotCount[slot]}`);
+            console.error(`  Slot ${slot} count increased to ${slotCount[slot]}`);
           }
         });
         console.error(`Blocked slots for this event: [${blockedSlotsForThisEvent.join(', ')}]`);
@@ -267,23 +290,18 @@ export default async function handler(req, res) {
           continue;
         }
 
-        // Convert event times to EST time strings
-        const startTime = getESTTime(eventStart);
-        const endTime = getESTTime(eventEnd);
+        // Convert event times to UTC minutes directly from ISO strings
+        const eventStartUTC = isoToUTCMinutes(eventStart) - 30; // 30 min pre-buffer
+        const eventEndUTC = isoToUTCMinutes(eventEnd) + 30; // 30 min post-buffer
 
-        console.error('Raw event times:', eventStart, '->', startTime, '|', eventEnd, '->', endTime);
-
-        // Convert event times to minutes, add buffer, then check each slot
-        const eventStartMinutes = timeToMinutes(startTime) - 30; // 30 min pre-buffer
-        const eventEndMinutes = timeToMinutes(endTime) + 30; // 30 min post-buffer
-
-        console.error('Event:', startTime, '-', endTime, '| Buffered:', eventStartMinutes, '-', eventEndMinutes);
+        console.error('Event ISO times:', eventStart, '|', eventEnd);
+        console.error('Event UTC minutes (buffered):', eventStartUTC, '-', eventEndUTC);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          const slotMinutes = timeToMinutes(slot);
-          console.error(`  Checking slot ${slot} (${slotMinutes} mins) against buffered range ${eventStartMinutes}-${eventEndMinutes}`);
-          if (slotMinutes >= eventStartMinutes && slotMinutes < eventEndMinutes) {
+          const slotUTC = slotToUTCMinutes(slot, date);
+          console.error(`  Checking slot ${slot} (UTC: ${slotUTC} mins) against buffered range ${eventStartUTC}-${eventEndUTC}`);
+          if (slotUTC >= eventStartUTC && slotUTC < eventEndUTC) {
             bookedSlots.push(slot);
             blockedSlotsForThisEvent.push(slot);
             console.error(`  ✓ Slot ${slot} blocked by this event`);
