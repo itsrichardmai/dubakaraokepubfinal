@@ -83,10 +83,14 @@ export default async function handler(req, res) {
 
   const cacheKey = `${date}-${desiredRoom}`;
   const cached = getCached(cacheKey);
-  if (cached) {
-    console.log('Returning cached result:', cached);
-    return res.status(200).json(cached);
-  }
+  // TEMPORARILY DISABLED FOR DEBUGGING
+  // if (cached) {
+  //   console.log('=== CACHE HIT - returning cached data ===');
+  //   console.log('Cached result:', cached);
+  //   return res.status(200).json(cached);
+  // }
+
+  console.log('=== CACHE MISS - calling Google Calendar ===');
 
   try {
     console.log('=== AUTHENTICATING WITH GOOGLE ===');
@@ -100,7 +104,11 @@ export default async function handler(req, res) {
       scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
     });
 
+    console.log('=== AUTH CREATED ===');
+
     const calendar = google.calendar({ version: 'v3', auth });
+
+    console.log('=== CALENDAR INSTANCE CREATED ===');
 
     const dayStart = new Date(`${date}T00:00:00-05:00`).toISOString();
     const dayEnd = new Date(`${date}T23:59:59-05:00`).toISOString();
@@ -116,7 +124,18 @@ export default async function handler(req, res) {
       orderBy: 'startTime',
     });
 
+    console.log('=== EVENTS FETCHED ===');
+
     const events = response.data.items || [];
+    console.log(`=== EVENTS FETCHED: ${events.length} events found ===`);
+
+    if (events.length > 0) {
+      console.log('=== INDIVIDUAL EVENTS ===');
+      events.forEach((event, index) => {
+        console.log(`=== EVENT ${index + 1}: ${event.summary} | start: ${event.start.dateTime || event.start.date} | end: ${event.end.dateTime || event.end.date} ===`);
+      });
+    }
+
     console.log('=== RAW EVENTS RETURNED ===');
     console.log('Total events found:', events.length);
     console.log('Raw events:', JSON.stringify(events, null, 2));
@@ -233,7 +252,10 @@ export default async function handler(req, res) {
     console.error('Error name:', err.name);
     console.error('Error message:', err.message);
     console.error('Error stack:', err.stack);
-    console.error('Full error object:', JSON.stringify(err, null, 2));
+    console.error('=== FULL ERROR:', JSON.stringify(err, Object.getOwnPropertyNames(err)));
+    console.error('Error response data:', err.response?.data);
+    console.error('Error response status:', err.response?.status);
+    console.error('Error config:', err.config);
     return res.status(200).json({ bookedSlots: [], error: true });
   }
 }
