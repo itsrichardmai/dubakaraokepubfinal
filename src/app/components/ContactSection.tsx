@@ -404,7 +404,7 @@ export function ContactSection() {
                       <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
                         <SelectValue placeholder="Select time" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
+                      <SelectContent className="bg-gray-900 border-gray-700" onCloseAutoFocus={(e) => e.preventDefault()}>
                         {!formData.desiredRoom ? (
                           <SelectItem value="none" disabled className="text-gray-400">
                             Select a room first
@@ -435,7 +435,7 @@ export function ContactSection() {
                       <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
                         <SelectValue placeholder="Select time" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
+                      <SelectContent className="bg-gray-900 border-gray-700" onCloseAutoFocus={(e) => e.preventDefault()}>
                         {!formData.desiredRoom ? (
                           <SelectItem value="none" disabled className="text-gray-400">
                             Select a room first
