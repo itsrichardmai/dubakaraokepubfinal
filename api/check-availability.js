@@ -252,18 +252,28 @@ export default async function handler(req, res) {
           continue;
         }
 
-        // Add 30-minute buffer before and after event for cleaning/setup (dedicated rooms only)
-        const bufferedStartTime = addMinutesToDateTime(eventStart, -30);
-        const bufferedEndTime = addMinutesToDateTime(eventEnd, 30);
+        // Convert event times to time strings first
+        const startTime = new Date(eventStart).toLocaleTimeString('en-US', {
+          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
+        });
+        const endTime = new Date(eventEnd).toLocaleTimeString('en-US', {
+          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
+        });
 
-        console.log('Event times (with 30min buffer for dedicated room):', bufferedStartTime, '-', bufferedEndTime);
+        // Convert event times to minutes, add buffer, then check each slot
+        const eventStartMinutes = timeToMinutes(startTime) - 30; // 30 min pre-buffer
+        const eventEndMinutes = timeToMinutes(endTime) + 30; // 30 min post-buffer
+
+        console.log('Event:', startTime, '-', endTime, '| Buffered:', eventStartMinutes, '-', eventEndMinutes);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (isSlotWithinEventWindow(slot, bufferedStartTime, bufferedEndTime, true)) {
+          const slotMinutes = timeToMinutes(slot);
+          console.log(`  Checking slot ${slot} (${slotMinutes} mins) against buffered range ${eventStartMinutes}-${eventEndMinutes}`);
+          if (slotMinutes >= eventStartMinutes && slotMinutes < eventEndMinutes) {
             bookedSlots.push(slot);
             blockedSlotsForThisEvent.push(slot);
-            console.log(`Slot ${slot} blocked by this event`);
+            console.log(`  ✓ Slot ${slot} blocked by this event`);
           }
         });
         console.log(`Blocked slots for event "${title}": [${blockedSlotsForThisEvent.join(', ')}]`);
