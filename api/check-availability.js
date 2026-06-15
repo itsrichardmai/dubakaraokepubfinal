@@ -83,11 +83,11 @@ function isSlotWithinEventWindow(slotTime, bufferedStartTime, bufferedEndTime, l
 
   // Log detailed comparison for debugging
   if (logDetails) {
-    console.log(`  Checking slot: ${slotTime} (${slotMinutes} mins)`);
-    console.log(`  Against window: ${bufferedStartTime} (${startMinutes} mins) to ${bufferedEndTime} (${endMinutes} mins)`);
-    console.log(`  ${slotMinutes} >= ${startMinutes} = ${slotMinutes >= startMinutes}`);
-    console.log(`  ${slotMinutes} < ${endMinutes} = ${slotMinutes < endMinutes}`);
-    console.log(`  Result: ${isBlocked ? 'BLOCKED' : 'AVAILABLE'}`);
+    console.error(`  Checking slot: ${slotTime} (${slotMinutes} mins)`);
+    console.error(`  Against window: ${bufferedStartTime} (${startMinutes} mins) to ${bufferedEndTime} (${endMinutes} mins)`);
+    console.error(`  ${slotMinutes} >= ${startMinutes} = ${slotMinutes >= startMinutes}`);
+    console.error(`  ${slotMinutes} < ${endMinutes} = ${slotMinutes < endMinutes}`);
+    console.error(`  Result: ${isBlocked ? 'BLOCKED' : 'AVAILABLE'}`);
   }
 
   // Slot is blocked if it falls within the buffered event window
@@ -101,9 +101,9 @@ export default async function handler(req, res) {
 
   const { date, desiredRoom } = req.body;
 
-  console.log('=== API CALLED ===');
-  console.log('Date:', date);
-  console.log('Desired Room:', desiredRoom);
+  console.error('=== API CALLED ===');
+  console.error('Date:', date);
+  console.error('Desired Room:', desiredRoom);
 
   if (!date || !desiredRoom) {
     return res.status(400).json({ error: 'Missing date or room' });
@@ -112,18 +112,18 @@ export default async function handler(req, res) {
   const cacheKey = `${date}-${desiredRoom}`;
   const cached = getCached(cacheKey);
   if (cached) {
-    console.log('=== CACHE HIT - returning cached data ===');
-    console.log('Cached result:', cached);
+    console.error('=== CACHE HIT - returning cached data ===');
+    console.error('Cached result:', cached);
     return res.status(200).json(cached);
   }
 
-  console.log('=== CACHE MISS - calling Google Calendar === (cache disabled with TTL=0)');
+  console.error('=== CACHE MISS - calling Google Calendar === (cache disabled with TTL=0)');
 
   try {
-    console.log('=== AUTHENTICATING WITH GOOGLE ===');
-    console.log('Service Account Email:', process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL);
-    console.log('Calendar ID:', process.env.GOOGLE_CALENDAR_ID);
-    console.log('Private Key exists:', !!process.env.GOOGLE_PRIVATE_KEY);
+    console.error('=== AUTHENTICATING WITH GOOGLE ===');
+    console.error('Service Account Email:', process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL);
+    console.error('Calendar ID:', process.env.GOOGLE_CALENDAR_ID);
+    console.error('Private Key exists:', !!process.env.GOOGLE_PRIVATE_KEY);
 
     const auth = new google.auth.JWT({
       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -131,17 +131,17 @@ export default async function handler(req, res) {
       scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
     });
 
-    console.log('=== AUTH CREATED ===');
+    console.error('=== AUTH CREATED ===');
 
     const calendar = google.calendar({ version: 'v3', auth });
 
-    console.log('=== CALENDAR INSTANCE CREATED ===');
+    console.error('=== CALENDAR INSTANCE CREATED ===');
 
     const dayStart = new Date(`${date}T00:00:00-05:00`).toISOString();
     const dayEnd = new Date(`${date}T23:59:59-05:00`).toISOString();
 
-    console.log('=== FETCHING CALENDAR EVENTS ===');
-    console.log('Time range:', dayStart, 'to', dayEnd);
+    console.error('=== FETCHING CALENDAR EVENTS ===');
+    console.error('Time range:', dayStart, 'to', dayEnd);
 
     const response = await calendar.events.list({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
@@ -151,29 +151,30 @@ export default async function handler(req, res) {
       orderBy: 'startTime',
     });
 
-    console.log('=== EVENTS FETCHED ===');
+    console.error('=== EVENTS FETCHED ===');
 
     const events = response.data.items || [];
-    console.log(`=== EVENTS FETCHED: ${events.length} events found ===`);
+    console.error('EVENTS FOUND:', JSON.stringify(events.map(e => ({ summary: e.summary, start: e.start.dateTime }))));
+    console.error(`=== EVENTS FETCHED: ${events.length} events found ===`);
 
     if (events.length > 0) {
-      console.log('=== INDIVIDUAL EVENTS ===');
+      console.error('=== INDIVIDUAL EVENTS ===');
       events.forEach((event, index) => {
-        console.log(`=== EVENT ${index + 1}: ${event.summary} | start: ${event.start.dateTime || event.start.date} | end: ${event.end.dateTime || event.end.date} ===`);
+        console.error(`=== EVENT ${index + 1}: ${event.summary} | start: ${event.start.dateTime || event.start.date} | end: ${event.end.dateTime || event.end.date} ===`);
       });
     }
 
-    console.log('=== RAW EVENTS RETURNED ===');
-    console.log('Total events found:', events.length);
-    console.log('Raw events:', JSON.stringify(events, null, 2));
+    console.error('=== RAW EVENTS RETURNED ===');
+    console.error('Total events found:', events.length);
+    console.error('Raw events:', JSON.stringify(events, null, 2));
 
     const roomKey = getRoomKey(desiredRoom);
     const isSmall = roomKey === 'small';
     const bookedSlots = [];
 
-    console.log('=== ROOM PROCESSING ===');
-    console.log('Room key:', roomKey);
-    console.log('Is small room:', isSmall);
+    console.error('=== ROOM PROCESSING ===');
+    console.error('Room key:', roomKey);
+    console.error('Is small room:', isSmall);
 
     const TIME_SLOTS = [
       '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM',
@@ -182,7 +183,7 @@ export default async function handler(req, res) {
     ];
 
     if (isSmall) {
-      console.log('=== PROCESSING SMALL ROOMS ===');
+      console.error('=== PROCESSING SMALL ROOMS ===');
       // For small rooms, track how many small rooms are booked per time slot
       const slotCount = {};
       TIME_SLOTS.forEach(slot => slotCount[slot] = 0);
@@ -190,16 +191,16 @@ export default async function handler(req, res) {
       for (const event of events) {
         const title = event.summary || '';
         const abbr = extractRoomFromTitle(title);
-        console.log('Event title:', title);
-        console.log('Extracted room abbr:', abbr);
-        console.log('Is small room:', abbr ? isSmallRoom(abbr) : 'N/A');
+        console.error('Event title:', title);
+        console.error('Extracted room abbr:', abbr);
+        console.error('Is small room:', abbr ? isSmallRoom(abbr) : 'N/A');
 
         if (!abbr || !isSmallRoom(abbr)) continue;
 
         const eventStart = event.start.dateTime;
         const eventEnd = event.end.dateTime;
         if (!eventStart || !eventEnd) {
-          console.log('Event missing dateTime, skipping');
+          console.error('Event missing dateTime, skipping');
           continue;
         }
 
@@ -211,44 +212,44 @@ export default async function handler(req, res) {
           hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
         });
 
-        console.log('Event times (NO buffer for small rooms):', startTime, '-', endTime);
+        console.error('Event times (NO buffer for small rooms):', startTime, '-', endTime);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
           if (isSlotWithinEventWindow(slot, startTime, endTime, true)) {
             slotCount[slot]++;
             blockedSlotsForThisEvent.push(slot);
-            console.log(`Slot ${slot} count increased to ${slotCount[slot]}`);
+            console.error(`Slot ${slot} count increased to ${slotCount[slot]}`);
           }
         });
-        console.log(`Blocked slots for this event: [${blockedSlotsForThisEvent.join(', ')}]`);
+        console.error(`Blocked slots for this event: [${blockedSlotsForThisEvent.join(', ')}]`);
       }
 
       // A slot is booked if all 4 small rooms are taken
-      console.log('Final slot counts:', slotCount);
+      console.error('Final slot counts:', slotCount);
       TIME_SLOTS.forEach(slot => {
         if (slotCount[slot] >= 4) {
           bookedSlots.push(slot);
-          console.log(`Slot ${slot} is fully booked (${slotCount[slot]} rooms)`);
+          console.error(`Slot ${slot} is fully booked (${slotCount[slot]} rooms)`);
         }
       });
 
     } else {
-      console.log('=== PROCESSING DEDICATED ROOM ===');
+      console.error('=== PROCESSING DEDICATED ROOM ===');
       // Dedicated room — check if room is booked at each slot
       for (const event of events) {
         const title = event.summary || '';
         const abbr = extractRoomFromTitle(title);
-        console.log('Event title:', title);
-        console.log('Extracted room abbr:', abbr);
-        console.log('Is dedicated room match:', abbr ? isDedicatedRoom(abbr, roomKey) : 'N/A');
+        console.error('Event title:', title);
+        console.error('Extracted room abbr:', abbr);
+        console.error('Is dedicated room match:', abbr ? isDedicatedRoom(abbr, roomKey) : 'N/A');
 
         if (!abbr || !isDedicatedRoom(abbr, roomKey)) continue;
 
         const eventStart = event.start.dateTime;
         const eventEnd = event.end.dateTime;
         if (!eventStart || !eventEnd) {
-          console.log('Event missing dateTime, skipping');
+          console.error('Event missing dateTime, skipping');
           continue;
         }
 
@@ -264,26 +265,26 @@ export default async function handler(req, res) {
         const eventStartMinutes = timeToMinutes(startTime) - 30; // 30 min pre-buffer
         const eventEndMinutes = timeToMinutes(endTime) + 30; // 30 min post-buffer
 
-        console.log('Event:', startTime, '-', endTime, '| Buffered:', eventStartMinutes, '-', eventEndMinutes);
+        console.error('Event:', startTime, '-', endTime, '| Buffered:', eventStartMinutes, '-', eventEndMinutes);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
           const slotMinutes = timeToMinutes(slot);
-          console.log(`  Checking slot ${slot} (${slotMinutes} mins) against buffered range ${eventStartMinutes}-${eventEndMinutes}`);
+          console.error(`  Checking slot ${slot} (${slotMinutes} mins) against buffered range ${eventStartMinutes}-${eventEndMinutes}`);
           if (slotMinutes >= eventStartMinutes && slotMinutes < eventEndMinutes) {
             bookedSlots.push(slot);
             blockedSlotsForThisEvent.push(slot);
-            console.log(`  ✓ Slot ${slot} blocked by this event`);
+            console.error(`  ✓ Slot ${slot} blocked by this event`);
           }
         });
-        console.log(`Blocked slots for event "${title}": [${blockedSlotsForThisEvent.join(', ')}]`);
+        console.error(`Blocked slots for event "${title}": [${blockedSlotsForThisEvent.join(', ')}]`);
       }
     }
 
     const result = { bookedSlots: [...new Set(bookedSlots)], error: false };
-    console.log('=== FINAL RESULT ===');
-    console.log('Booked slots:', result.bookedSlots);
-    console.log('Total booked slots:', result.bookedSlots.length);
+    console.error('=== FINAL RESULT ===');
+    console.error('Booked slots:', result.bookedSlots);
+    console.error('Total booked slots:', result.bookedSlots.length);
 
     setCache(cacheKey, result);
     return res.status(200).json(result);
