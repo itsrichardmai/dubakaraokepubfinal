@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 
 const cache = new Map();
-const CACHE_TTL = 5 * 60 * 1000;
+const CACHE_TTL = 0; // TEMPORARILY DISABLED FOR DEBUGGING
 
 function getCached(key) {
   const entry = cache.get(key);
@@ -74,13 +74,24 @@ function addMinutesToDateTime(dateTimeStr, minutesToAdd) {
   });
 }
 
-function isSlotWithinEventWindow(slotTime, bufferedStartTime, bufferedEndTime) {
+function isSlotWithinEventWindow(slotTime, bufferedStartTime, bufferedEndTime, logDetails = false) {
   const slotMinutes = timeToMinutes(slotTime);
   const startMinutes = timeToMinutes(bufferedStartTime);
   const endMinutes = timeToMinutes(bufferedEndTime);
 
+  const isBlocked = slotMinutes >= startMinutes && slotMinutes < endMinutes;
+
+  // Log detailed comparison for debugging
+  if (logDetails) {
+    console.log(`  Checking slot: ${slotTime} (${slotMinutes} mins)`);
+    console.log(`  Against window: ${bufferedStartTime} (${startMinutes} mins) to ${bufferedEndTime} (${endMinutes} mins)`);
+    console.log(`  ${slotMinutes} >= ${startMinutes} = ${slotMinutes >= startMinutes}`);
+    console.log(`  ${slotMinutes} < ${endMinutes} = ${slotMinutes < endMinutes}`);
+    console.log(`  Result: ${isBlocked ? 'BLOCKED' : 'AVAILABLE'}`);
+  }
+
   // Slot is blocked if it falls within the buffered event window
-  return slotMinutes >= startMinutes && slotMinutes < endMinutes;
+  return isBlocked;
 }
 
 export default async function handler(req, res) {
@@ -100,14 +111,13 @@ export default async function handler(req, res) {
 
   const cacheKey = `${date}-${desiredRoom}`;
   const cached = getCached(cacheKey);
-  // TEMPORARILY DISABLED FOR DEBUGGING
-  // if (cached) {
-  //   console.log('=== CACHE HIT - returning cached data ===');
-  //   console.log('Cached result:', cached);
-  //   return res.status(200).json(cached);
-  // }
+  if (cached) {
+    console.log('=== CACHE HIT - returning cached data ===');
+    console.log('Cached result:', cached);
+    return res.status(200).json(cached);
+  }
 
-  console.log('=== CACHE MISS - calling Google Calendar ===');
+  console.log('=== CACHE MISS - calling Google Calendar === (cache disabled with TTL=0)');
 
   try {
     console.log('=== AUTHENTICATING WITH GOOGLE ===');
@@ -205,7 +215,7 @@ export default async function handler(req, res) {
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (isSlotWithinEventWindow(slot, startTime, endTime)) {
+          if (isSlotWithinEventWindow(slot, startTime, endTime, true)) {
             slotCount[slot]++;
             blockedSlotsForThisEvent.push(slot);
             console.log(`Slot ${slot} count increased to ${slotCount[slot]}`);
@@ -250,7 +260,7 @@ export default async function handler(req, res) {
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (isSlotWithinEventWindow(slot, bufferedStartTime, bufferedEndTime)) {
+          if (isSlotWithinEventWindow(slot, bufferedStartTime, bufferedEndTime, true)) {
             bookedSlots.push(slot);
             blockedSlotsForThisEvent.push(slot);
             console.log(`Slot ${slot} blocked by this event`);
