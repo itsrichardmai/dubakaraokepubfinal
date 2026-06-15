@@ -1,34 +1,51 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const slides = [
     {
       type: 'image' as const,
       src: '/friday-night-public-karaoke-promo.webp',
+      srcMobile: '/friday-night-public-karaoke-promo-mobile.webp',
       alt: 'Friday Night Public Karaoke',
     },
     {
       type: 'image' as const,
       src: '/bbq-chicken-promo.webp',
+      srcMobile: '/bbq-chicken-promo-mobile.webp',
       alt: 'BB.Q Chicken Promo',
     },
     {
       type: 'custom' as const,
       content: (
         <div className="relative w-full h-full min-h-[400px] flex items-center justify-center">
-          <img
-            src="/korean-food-collage.webp"
-            alt="Korean Food Collage"
-            className="absolute inset-0 w-full h-full object-cover rounded-lg"
-            width={1200}
-            height={675}
-          />
+          <picture>
+            <source media="(max-width: 768px)" srcSet="/korean-food-collage-mobile.webp" type="image/webp" />
+            <source srcSet="/korean-food-collage.webp" type="image/webp" />
+            <img
+              src="/korean-food-collage.webp"
+              alt="Korean Food Collage"
+              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+              width={1200}
+              height={675}
+            />
+          </picture>
           <div className="absolute inset-0 bg-black/60 rounded-lg" />
           <div className="relative z-10 text-center px-6 py-8">
             <p className="text-white text-2xl md:text-3xl font-semibold mb-6 max-w-2xl">
@@ -88,8 +105,8 @@ export function HeroSection() {
       {/* plain black background */}
       <div className="absolute inset-0 bg-black z-0" />
       
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden z-0">
+      {/* Animated gradient orbs — desktop only */}
+      <div className="absolute inset-0 overflow-hidden z-0 hidden md:block">
         <motion.div
           className="absolute top-1/4 -left-48 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"
           animate={{
@@ -123,16 +140,14 @@ export function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <motion.img 
-            src="/logo-icon.webp" 
-            alt="Duba" 
-            className="mx-auto mb-8 h-32 drop-shadow-2xl"
+          <motion.img
+            src="/logo-icon.webp"
+            alt="Duba"
+            className="mx-auto mb-8 h-20 md:h-32 drop-shadow-2xl"
             fetchPriority="high"
             width={281}
             height={150}
-            animate={{
-              y: [0, -10, 0],
-            }}
+            animate={!shouldReduceMotion && !isMobile ? { y: [0, -10, 0] } : {}}
             transition={{
               duration: 3,
               repeat: Infinity,
@@ -183,14 +198,16 @@ export function HeroSection() {
                     }`}
                   >
                     {slide.type === 'image' ? (
-                      <ImageWithFallback
-                        eager={index === 0}
-                        src={slide.src}
-                        alt={slide.alt}
-                        className="w-full h-auto rounded-lg"
-                        width={1200}
-                        height={675}
-                      />
+                      <picture>
+                        <source media="(max-width: 768px)" srcSet={slide.srcMobile} type="image/webp" />
+                        <source srcSet={slide.src} type="image/webp" />
+                        <img
+                          src={slide.src}
+                          alt={slide.alt}
+                          className="w-full h-auto rounded-lg"
+                          loading={index === 0 ? 'eager' : 'lazy'}
+                        />
+                      </picture>
                     ) : (
                       slide.content
                     )}

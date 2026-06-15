@@ -7,6 +7,7 @@ interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElemen
   src: string
   alt: string
   eager?: boolean
+  sizes?: string
 }
 
 export function ImageWithFallback({
@@ -15,6 +16,7 @@ export function ImageWithFallback({
   style,
   className,
   eager = false,
+  sizes,
   ...rest
 }: ImageWithFallbackProps) {
   const [didError, setDidError] = useState(false)
@@ -36,7 +38,7 @@ export function ImageWithFallback({
 
   return (
     <picture>
-      <source srcSet={webpSrc} type="image/webp" />
+      <source srcSet={webpSrc} type="image/webp" sizes={sizes} />
       <img
         src={src}
         alt={alt}
@@ -44,6 +46,7 @@ export function ImageWithFallback({
         style={style}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
+        sizes={sizes}
         onError={() => setDidError(true)}
         {...rest}
       />
