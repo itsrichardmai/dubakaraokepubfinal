@@ -193,15 +193,19 @@ export default async function handler(req, res) {
           continue;
         }
 
-        // Add 30-minute buffer before and after event for cleaning/setup
-        const bufferedStartTime = addMinutesToDateTime(eventStart, -30);
-        const bufferedEndTime = addMinutesToDateTime(eventEnd, 30);
+        // NO BUFFER for small rooms - use exact event times
+        const startTime = new Date(eventStart).toLocaleTimeString('en-US', {
+          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
+        });
+        const endTime = new Date(eventEnd).toLocaleTimeString('en-US', {
+          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
+        });
 
-        console.log('Event times (with 30min buffer):', bufferedStartTime, '-', bufferedEndTime);
+        console.log('Event times (NO buffer for small rooms):', startTime, '-', endTime);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (isSlotWithinEventWindow(slot, bufferedStartTime, bufferedEndTime)) {
+          if (isSlotWithinEventWindow(slot, startTime, endTime)) {
             slotCount[slot]++;
             blockedSlotsForThisEvent.push(slot);
             console.log(`Slot ${slot} count increased to ${slotCount[slot]}`);
@@ -238,11 +242,11 @@ export default async function handler(req, res) {
           continue;
         }
 
-        // Add 30-minute buffer before and after event for cleaning/setup
+        // Add 30-minute buffer before and after event for cleaning/setup (dedicated rooms only)
         const bufferedStartTime = addMinutesToDateTime(eventStart, -30);
         const bufferedEndTime = addMinutesToDateTime(eventEnd, 30);
 
-        console.log('Event times (with 30min buffer):', bufferedStartTime, '-', bufferedEndTime);
+        console.log('Event times (with 30min buffer for dedicated room):', bufferedStartTime, '-', bufferedEndTime);
 
         const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
