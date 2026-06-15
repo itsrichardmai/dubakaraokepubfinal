@@ -143,7 +143,7 @@ export function HeroSection() {
           <motion.img
             src="/logo-icon.webp"
             alt="Duba"
-            className="mx-auto mb-8 h-20 md:h-32 drop-shadow-2xl"
+            className="mx-auto mb-8 h-24 md:h-32 w-auto drop-shadow-2xl"
             fetchPriority="high"
             width={281}
             height={150}
