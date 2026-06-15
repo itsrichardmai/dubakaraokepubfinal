@@ -74,6 +74,18 @@ function addMinutesToDateTime(dateTimeStr, minutesToAdd) {
   });
 }
 
+function getESTTime(isoString) {
+  // Parse the EST time directly from the ISO string
+  // e.g. "2026-06-17T17:30:00-04:00" → "5:30 PM"
+  const date = new Date(isoString);
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+    timeZone: 'America/New_York'
+  });
+}
+
 function isSlotWithinEventWindow(slotTime, bufferedStartTime, bufferedEndTime, logDetails = false) {
   const slotMinutes = timeToMinutes(slotTime);
   const startMinutes = timeToMinutes(bufferedStartTime);
@@ -211,12 +223,8 @@ export default async function handler(req, res) {
         }
 
         // NO BUFFER for small rooms - use exact event times
-        const startTime = new Date(eventStart).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
-        const endTime = new Date(eventEnd).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
+        const startTime = getESTTime(eventStart);
+        const endTime = getESTTime(eventEnd);
 
         console.error('Event times (NO buffer for small rooms):', startTime, '-', endTime);
 
@@ -259,13 +267,11 @@ export default async function handler(req, res) {
           continue;
         }
 
-        // Convert event times to time strings first
-        const startTime = new Date(eventStart).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
-        const endTime = new Date(eventEnd).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
+        // Convert event times to EST time strings
+        const startTime = getESTTime(eventStart);
+        const endTime = getESTTime(eventEnd);
+
+        console.error('Raw event times:', eventStart, '->', startTime, '|', eventEnd, '->', endTime);
 
         // Convert event times to minutes, add buffer, then check each slot
         const eventStartMinutes = timeToMinutes(startTime) - 30; // 30 min pre-buffer
