@@ -85,7 +85,9 @@ export function ContactSection() {
   };
 
   useEffect(() => {
-    if (!formData.date || !formData.desiredRoom) {
+    // Validate date format (YYYY-MM-DD) and desiredRoom is non-empty
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!formData.date || !dateRegex.test(formData.date) || !formData.desiredRoom || formData.desiredRoom.trim() === '') {
       setAvailabilityStatus('idle');
       setBookedSlots([]);
       return;
@@ -95,6 +97,8 @@ export function ContactSection() {
     setBookedSlots([]);
     handleInputChange('timeIn', '');
     handleInputChange('timeOut', '');
+
+    let isCancelled = false;
 
     const timer = setTimeout(async () => {
       try {
@@ -107,14 +111,23 @@ export function ContactSection() {
           }),
         });
         const data = await res.json();
-        setBookedSlots(data.bookedSlots || []);
-        setAvailabilityStatus(data.error ? 'error' : 'loaded');
+
+        // Only update state if this request hasn't been cancelled
+        if (!isCancelled) {
+          setBookedSlots(data.bookedSlots || []);
+          setAvailabilityStatus(data.error ? 'error' : 'loaded');
+        }
       } catch {
-        setAvailabilityStatus('error');
+        if (!isCancelled) {
+          setAvailabilityStatus('error');
+        }
       }
     }, 500);
 
-    return () => clearTimeout(timer);
+    return () => {
+      isCancelled = true;
+      clearTimeout(timer);
+    };
   }, [formData.date, formData.desiredRoom]);
 
   const handleSubmit = async (e: React.FormEvent) => {
