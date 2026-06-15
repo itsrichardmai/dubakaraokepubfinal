@@ -174,11 +174,11 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
             <div className="relative bg-gradient-to-br from-yellow-900/20 to-black border-2 border-yellow-500/30 rounded-2xl p-6 backdrop-blur-sm">
               {/* Carousel Content */}
-              <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
+              <div className="relative overflow-hidden rounded-lg">
                 {slides.map((slide, index) => (
                   <div
                     key={index}
-                    className={`transition-opacity duration-500 ${
+                    className={`min-h-[400px] transition-opacity duration-500 ${
                       index === currentSlide ? 'opacity-100' : 'opacity-0 absolute inset-0'
                     }`}
                   >
