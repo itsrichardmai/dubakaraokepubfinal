@@ -66,6 +66,14 @@ function timesOverlap(eventStart, eventEnd, requestStart, requestEnd) {
   return eStart < rEnd && eEnd > rStart;
 }
 
+function addMinutesToDateTime(dateTimeStr, minutesToAdd) {
+  const date = new Date(dateTimeStr);
+  date.setMinutes(date.getMinutes() + minutesToAdd);
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
+  });
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -176,14 +184,11 @@ export default async function handler(req, res) {
           continue;
         }
 
-        const startTime = new Date(eventStart).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
-        const endTime = new Date(eventEnd).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
+        // Add 30-minute buffer before and after event for cleaning/setup
+        const startTime = addMinutesToDateTime(eventStart, -30);
+        const endTime = addMinutesToDateTime(eventEnd, 30);
 
-        console.log('Event times:', startTime, '-', endTime);
+        console.log('Event times (with 30min buffer):', startTime, '-', endTime);
 
         TIME_SLOTS.forEach(slot => {
           if (timesOverlap(startTime, endTime, slot, TIME_SLOTS[TIME_SLOTS.indexOf(slot) + 1] || '2:30 AM')) {
@@ -221,14 +226,11 @@ export default async function handler(req, res) {
           continue;
         }
 
-        const startTime = new Date(eventStart).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
-        const endTime = new Date(eventEnd).toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
-        });
+        // Add 30-minute buffer before and after event for cleaning/setup
+        const startTime = addMinutesToDateTime(eventStart, -30);
+        const endTime = addMinutesToDateTime(eventEnd, 30);
 
-        console.log('Event times:', startTime, '-', endTime);
+        console.log('Event times (with 30min buffer):', startTime, '-', endTime);
 
         TIME_SLOTS.forEach(slot => {
           if (timesOverlap(startTime, endTime, slot, TIME_SLOTS[TIME_SLOTS.indexOf(slot) + 1] || '2:30 AM')) {

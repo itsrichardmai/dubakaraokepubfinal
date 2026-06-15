@@ -364,6 +364,26 @@ export function ContactSection() {
                   />
                 </div>
 
+                <div>
+                  <Label htmlFor="desiredRoom" className="text-gray-300">Desired Room *</Label>
+                  <Select value={formData.desiredRoom} onValueChange={(value) => handleInputChange('desiredRoom', value)}>
+                    <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
+                      <SelectValue placeholder="Select a room" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-900 border-gray-700">
+                      {karaokeRooms.map((room) => (
+                        <SelectItem
+                          key={room.name}
+                          value={`${room.name} (Max ${room.capacity}) `}
+                          className="text-white focus:bg-yellow-400/20"
+                        >
+                          {room.name} (Parties for {room.capacity})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="timeIn" className="text-gray-300">Time In *</Label>
@@ -372,7 +392,11 @@ export function ContactSection() {
                         <SelectValue placeholder="Select time" />
                       </SelectTrigger>
                       <SelectContent className="bg-gray-900 border-gray-700">
-                        {availabilityStatus === 'checking' ? (
+                        {!formData.desiredRoom ? (
+                          <SelectItem value="none" disabled className="text-gray-400">
+                            Select a room first
+                          </SelectItem>
+                        ) : availabilityStatus === 'checking' ? (
                           <SelectItem value="checking" disabled className="text-gray-400">
                             Checking availability...
                           </SelectItem>
@@ -399,7 +423,11 @@ export function ContactSection() {
                         <SelectValue placeholder="Select time" />
                       </SelectTrigger>
                       <SelectContent className="bg-gray-900 border-gray-700">
-                        {!formData.timeIn ? (
+                        {!formData.desiredRoom ? (
+                          <SelectItem value="none" disabled className="text-gray-400">
+                            Select a room first
+                          </SelectItem>
+                        ) : !formData.timeIn ? (
                           <SelectItem value="none" disabled className="text-gray-400">
                             Select time in first
                           </SelectItem>
@@ -430,26 +458,6 @@ export function ContactSection() {
                     No availability for this room on this date. Try a different date or room.
                   </p>
                 )}
-
-                <div>
-                  <Label htmlFor="desiredRoom" className="text-gray-300">Desired Room *</Label>
-                  <Select value={formData.desiredRoom} onValueChange={(value) => handleInputChange('desiredRoom', value)}>
-                    <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
-                      <SelectValue placeholder="Select a room" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-gray-700">
-                      {karaokeRooms.map((room) => (
-                        <SelectItem 
-                          key={room.name} 
-                          value={`${room.name} (Max ${room.capacity}) `}
-                          className="text-white focus:bg-yellow-400/20"
-                        >
-                          {room.name} (Parties for {room.capacity}) 
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
 
                 <div>
                   <Label htmlFor="specialRequests" className="text-gray-300">Special Requests</Label>
