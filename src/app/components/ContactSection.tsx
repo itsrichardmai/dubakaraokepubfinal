@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { Card } from './ui/card';
@@ -68,6 +68,8 @@ export function ContactSection() {
     desiredRoom: '',
     specialRequests: '',
   });
+  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'loaded' | 'error'>('idle');
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -82,6 +84,51 @@ export function ContactSection() {
     return value;
   };
 
+  useEffect(() => {
+    // Validate date format (YYYY-MM-DD) and desiredRoom is non-empty
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!formData.date || !dateRegex.test(formData.date) || !formData.desiredRoom || formData.desiredRoom.trim() === '') {
+      setAvailabilityStatus('idle');
+      setBookedSlots([]);
+      return;
+    }
+
+    setAvailabilityStatus('checking');
+    setBookedSlots([]);
+    handleInputChange('timeIn', '');
+    handleInputChange('timeOut', '');
+
+    let isCancelled = false;
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/check-availability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            date: formData.date,
+            desiredRoom: formData.desiredRoom,
+          }),
+        });
+        const data = await res.json();
+
+        // Only update state if this request hasn't been cancelled
+        if (!isCancelled) {
+          setBookedSlots(data.bookedSlots || []);
+          setAvailabilityStatus(data.error ? 'error' : 'loaded');
+        }
+      } catch {
+        if (!isCancelled) {
+          setAvailabilityStatus('error');
+        }
+      }
+    }, 500);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(timer);
+    };
+  }, [formData.date, formData.desiredRoom]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -330,6 +377,26 @@ export function ContactSection() {
                   />
                 </div>
 
+                <div>
+                  <Label htmlFor="desiredRoom" className="text-gray-300">Desired Room *</Label>
+                  <Select value={formData.desiredRoom} onValueChange={(value) => handleInputChange('desiredRoom', value)}>
+                    <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
+                      <SelectValue placeholder="Select a room" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-900 border-gray-700">
+                      {karaokeRooms.map((room) => (
+                        <SelectItem
+                          key={room.name}
+                          value={`${room.name} (Max ${room.capacity}) `}
+                          className="text-white focus:bg-yellow-400/20"
+                        >
+                          {room.name} (Parties for {room.capacity})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="timeIn" className="text-gray-300">Time In *</Label>
@@ -337,16 +404,28 @@ export function ContactSection() {
                       <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
                         <SelectValue placeholder="Select time" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
-                        {timeSlots.map((time) => (
-                          <SelectItem
-                            key={`in-${time}`}
-                            value={time}
-                            className="text-white focus:bg-yellow-400/20"
-                          >
-                            {time}
+                      <SelectContent className="bg-gray-900 border-gray-700" onCloseAutoFocus={(e) => e.preventDefault()}>
+                        {!formData.desiredRoom ? (
+                          <SelectItem value="none" disabled className="text-gray-400">
+                            Select a room first
                           </SelectItem>
-                        ))}
+                        ) : availabilityStatus === 'checking' ? (
+                          <SelectItem value="checking" disabled className="text-gray-400">
+                            Checking availability...
+                          </SelectItem>
+                        ) : availabilityStatus === 'loaded' && timeSlots.filter(t => !bookedSlots.includes(t)).length === 0 ? (
+                          <SelectItem value="none" disabled className="text-gray-400">
+                            No availability on this date
+                          </SelectItem>
+                        ) : (
+                          timeSlots
+                            .filter(t => availabilityStatus !== 'loaded' || !bookedSlots.includes(t))
+                            .map((time) => (
+                              <SelectItem key={`in-${time}`} value={time} className="text-white focus:bg-yellow-400/20">
+                                {time}
+                              </SelectItem>
+                            ))
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
@@ -356,41 +435,42 @@ export function ContactSection() {
                       <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
                         <SelectValue placeholder="Select time" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
-                        {timeSlots.map((time) => (
-                          <SelectItem
-                            key={`out-${time}`}
-                            value={time}
-                            className="text-white focus:bg-yellow-400/20"
-                          >
-                            {time}
+                      <SelectContent className="bg-gray-900 border-gray-700" onCloseAutoFocus={(e) => e.preventDefault()}>
+                        {!formData.desiredRoom ? (
+                          <SelectItem value="none" disabled className="text-gray-400">
+                            Select a room first
                           </SelectItem>
-                        ))}
+                        ) : !formData.timeIn ? (
+                          <SelectItem value="none" disabled className="text-gray-400">
+                            Select time in first
+                          </SelectItem>
+                        ) : availabilityStatus === 'checking' ? (
+                          <SelectItem value="checking" disabled className="text-gray-400">
+                            Checking availability...
+                          </SelectItem>
+                        ) : (
+                          timeSlots
+                            .filter(t => {
+                              const afterTimeIn = timeSlots.indexOf(t) > timeSlots.indexOf(formData.timeIn);
+                              const notBooked = availabilityStatus !== 'loaded' || !bookedSlots.includes(t);
+                              return afterTimeIn && notBooked;
+                            })
+                            .map((time) => (
+                              <SelectItem key={`out-${time}`} value={time} className="text-white focus:bg-yellow-400/20">
+                                {time}
+                              </SelectItem>
+                            ))
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
-
-                <div>
-                  <Label htmlFor="desiredRoom" className="text-gray-300">Desired Room *</Label>
-                  <Select value={formData.desiredRoom} onValueChange={(value) => handleInputChange('desiredRoom', value)}>
-                    <SelectTrigger className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1">
-                      <SelectValue placeholder="Select a room" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-gray-700">
-                      {karaokeRooms.map((room) => (
-                        <SelectItem 
-                          key={room.name} 
-                          value={`${room.name} (Max ${room.capacity}) `}
-                          className="text-white focus:bg-yellow-400/20"
-                        >
-                          {room.name} (Parties for {room.capacity}) 
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                {availabilityStatus === 'loaded' && bookedSlots.length === timeSlots.length && (
+                  <p className="text-gray-400 text-xs text-center mt-2">
+                    No availability for this room on this date. Try a different date or room.
+                  </p>
+                )}
 
                 <div>
                   <Label htmlFor="specialRequests" className="text-gray-300">Special Requests</Label>
