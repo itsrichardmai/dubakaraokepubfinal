@@ -64,10 +64,12 @@ export function Navigation({ activeSection }: NavigationProps) {
             whileTap={{ scale: 0.95 }}
           >
             <div className="relative flex flex-col items-center">
-            <img 
-              src="/logo-icon.webp" 
-              alt="Duba Logo" 
-              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:rotate-6" 
+            <img
+              src="/logo-icon.webp"
+              alt="Duba Logo"
+              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:rotate-6"
+              width={281}
+              height={150}
             />
             <div className="absolute inset-0 bg-yellow-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="text-xs text-gray-400 mt-1 hidden sm:block">Karaoke & Pub</div>

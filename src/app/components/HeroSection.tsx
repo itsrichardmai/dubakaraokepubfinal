@@ -26,6 +26,8 @@ export function HeroSection() {
             src="/korean-food-collage.webp"
             alt="Korean Food Collage"
             className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            width={1200}
+            height={675}
           />
           <div className="absolute inset-0 bg-black/60 rounded-lg" />
           <div className="relative z-10 text-center px-6 py-8">
@@ -172,7 +174,7 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
             <div className="relative bg-gradient-to-br from-yellow-900/20 to-black border-2 border-yellow-500/30 rounded-2xl p-6 backdrop-blur-sm">
               {/* Carousel Content */}
-              <div className="relative overflow-hidden rounded-lg">
+              <div className="relative overflow-hidden rounded-lg aspect-[16/9]">
                 {slides.map((slide, index) => (
                   <div
                     key={index}
@@ -186,8 +188,8 @@ export function HeroSection() {
                         src={slide.src}
                         alt={slide.alt}
                         className="w-full h-auto rounded-lg"
-                        // width={800}
-                        // height={400}
+                        width={1200}
+                        height={675}
                       />
                     ) : (
                       slide.content

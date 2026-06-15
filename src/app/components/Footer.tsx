@@ -18,7 +18,7 @@ export function Footer() {
               className="text-center md:text-left"
             >
               <div className="flex items-center justify-center md:justify-start mb-4">
-              <img src="/logo-icon.webp" alt="Duba Logo" className="h-16 w-auto object-contain" />
+              <img src="/logo-icon.webp" alt="Duba Logo" className="h-16 w-auto object-contain" width={281} height={150} />
             </div>
               <p className="text-gray-500 text-sm">
                 Elkins Park's favorite destination for Korean BBQ and karaoke entertainment.
