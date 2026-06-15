@@ -74,6 +74,15 @@ function addMinutesToDateTime(dateTimeStr, minutesToAdd) {
   });
 }
 
+function isSlotWithinEventWindow(slotTime, bufferedStartTime, bufferedEndTime) {
+  const slotMinutes = timeToMinutes(slotTime);
+  const startMinutes = timeToMinutes(bufferedStartTime);
+  const endMinutes = timeToMinutes(bufferedEndTime);
+
+  // Slot is blocked if it falls within the buffered event window
+  return slotMinutes >= startMinutes && slotMinutes < endMinutes;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -185,17 +194,20 @@ export default async function handler(req, res) {
         }
 
         // Add 30-minute buffer before and after event for cleaning/setup
-        const startTime = addMinutesToDateTime(eventStart, -30);
-        const endTime = addMinutesToDateTime(eventEnd, 30);
+        const bufferedStartTime = addMinutesToDateTime(eventStart, -30);
+        const bufferedEndTime = addMinutesToDateTime(eventEnd, 30);
 
-        console.log('Event times (with 30min buffer):', startTime, '-', endTime);
+        console.log('Event times (with 30min buffer):', bufferedStartTime, '-', bufferedEndTime);
 
+        const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (timesOverlap(startTime, endTime, slot, TIME_SLOTS[TIME_SLOTS.indexOf(slot) + 1] || '2:30 AM')) {
+          if (isSlotWithinEventWindow(slot, bufferedStartTime, bufferedEndTime)) {
             slotCount[slot]++;
+            blockedSlotsForThisEvent.push(slot);
             console.log(`Slot ${slot} count increased to ${slotCount[slot]}`);
           }
         });
+        console.log(`Blocked slots for this event: [${blockedSlotsForThisEvent.join(', ')}]`);
       }
 
       // A slot is booked if all 4 small rooms are taken
@@ -227,17 +239,20 @@ export default async function handler(req, res) {
         }
 
         // Add 30-minute buffer before and after event for cleaning/setup
-        const startTime = addMinutesToDateTime(eventStart, -30);
-        const endTime = addMinutesToDateTime(eventEnd, 30);
+        const bufferedStartTime = addMinutesToDateTime(eventStart, -30);
+        const bufferedEndTime = addMinutesToDateTime(eventEnd, 30);
 
-        console.log('Event times (with 30min buffer):', startTime, '-', endTime);
+        console.log('Event times (with 30min buffer):', bufferedStartTime, '-', bufferedEndTime);
 
+        const blockedSlotsForThisEvent = [];
         TIME_SLOTS.forEach(slot => {
-          if (timesOverlap(startTime, endTime, slot, TIME_SLOTS[TIME_SLOTS.indexOf(slot) + 1] || '2:30 AM')) {
+          if (isSlotWithinEventWindow(slot, bufferedStartTime, bufferedEndTime)) {
             bookedSlots.push(slot);
+            blockedSlotsForThisEvent.push(slot);
             console.log(`Slot ${slot} blocked by this event`);
           }
         });
+        console.log(`Blocked slots for event "${title}": [${blockedSlotsForThisEvent.join(', ')}]`);
       }
     }
 
