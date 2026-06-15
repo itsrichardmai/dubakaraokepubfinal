@@ -145,8 +145,8 @@ export function AboutSection() {
   </motion.div>
 
   {/* Widget loads lazily & safely */}
-  <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 p-8 mt-6 min-h-[420px]">
-    <ElfsightWidget widgetId="a5e5915b-7d77-4fe9-a3b5-31a0b7363092"/>
+  <Card className="bg-gradient-to-br from-gray-900/90 to-black border-yellow-500/20 p-8 mt-6 h-[420px]">
+    <ElfsightWidget widgetId="a5e5915b-7d77-4fe9-a3b5-31a0b7363092" className="h-full"/>
   </Card>
 </div>
 

@@ -26,6 +26,8 @@ export function HeroSection() {
             src="/korean-food-collage.webp"
             alt="Korean Food Collage"
             className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            width={1200}
+            height={675}
           />
           <div className="absolute inset-0 bg-black/60 rounded-lg" />
           <div className="relative z-10 text-center px-6 py-8">
@@ -176,7 +178,7 @@ export function HeroSection() {
                 {slides.map((slide, index) => (
                   <div
                     key={index}
-                    className={`transition-opacity duration-500 ${
+                    className={`min-h-[400px] transition-opacity duration-500 ${
                       index === currentSlide ? 'opacity-100' : 'opacity-0 absolute inset-0'
                     }`}
                   >
@@ -186,8 +188,8 @@ export function HeroSection() {
                         src={slide.src}
                         alt={slide.alt}
                         className="w-full h-auto rounded-lg"
-                        // width={800}
-                        // height={400}
+                        width={1200}
+                        height={675}
                       />
                     ) : (
                       slide.content
