@@ -105,6 +105,12 @@ export default async function handler(req, res) {
   console.error('Date:', date);
   console.error('Desired Room:', desiredRoom);
 
+  // TIME CONVERSION TEST
+  console.error('TIME TEST - 5:30 PM in minutes:', timeToMinutes('5:30 PM'));
+  console.error('TIME TEST - 9:00 PM in minutes:', timeToMinutes('9:00 PM'));
+  console.error('TIME TEST - 8:00 PM in minutes:', timeToMinutes('8:00 PM'));
+  console.error('TIME TEST - 5:00 PM in minutes:', timeToMinutes('5:00 PM'));
+
   if (!date || !desiredRoom) {
     return res.status(400).json({ error: 'Missing date or room' });
   }
