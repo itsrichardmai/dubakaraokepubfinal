@@ -74,7 +74,9 @@ export function ContactSection() {
   // Check if selected date is Friday or Saturday
   const isFridayOrSaturday = () => {
     if (!formData.date) return false;
-    const selectedDate = new Date(formData.date);
+    // Parse date in local timezone to avoid UTC offset issues
+    const [year, month, day] = formData.date.split('-').map(Number);
+    const selectedDate = new Date(year, month - 1, day);
     const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
     return dayOfWeek === 5 || dayOfWeek === 6;
   };
