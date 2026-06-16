@@ -71,6 +71,19 @@ export function ContactSection() {
   const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'checking' | 'loaded' | 'error'>('idle');
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
+  // Check if selected date is Friday or Saturday
+  const isFridayOrSaturday = () => {
+    if (!formData.date) return false;
+    const selectedDate = new Date(formData.date);
+    const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
+    return dayOfWeek === 5 || dayOfWeek === 6;
+  };
+
+  // Filter rooms based on day of week - hide small rooms on Fri/Sat
+  const availableRooms = isFridayOrSaturday()
+    ? karaokeRooms.filter(room => room.name !== 'Small')
+    : karaokeRooms;
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -83,6 +96,15 @@ export function ContactSection() {
     }
     return value;
   };
+
+  // Clear small room selection if user changes to Friday/Saturday
+  useEffect(() => {
+    if (isFridayOrSaturday() && formData.desiredRoom.toLowerCase().includes('small')) {
+      handleInputChange('desiredRoom', '');
+      handleInputChange('timeIn', '');
+      handleInputChange('timeOut', '');
+    }
+  }, [formData.date]);
 
   useEffect(() => {
     // Validate date format (YYYY-MM-DD) and desiredRoom is non-empty
@@ -384,7 +406,7 @@ export function ContactSection() {
                       <SelectValue placeholder="Select a room" />
                     </SelectTrigger>
                     <SelectContent className="bg-gray-900 border-gray-700">
-                      {karaokeRooms.map((room) => (
+                      {availableRooms.map((room) => (
                         <SelectItem
                           key={room.name}
                           value={`${room.name} (Max ${room.capacity}) `}
