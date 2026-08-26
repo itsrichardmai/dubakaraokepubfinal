@@ -14,10 +14,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Validate guest count is a number between 1 and 35
+    // Validate guest count is a number between 1 and 40
     const guestCountNum = Number(guestCount);
-    if (!Number.isInteger(guestCountNum) || guestCountNum < 1 || guestCountNum > 35) {
-      return res.status(400).json({ error: 'Number of guests must be between 1 and 35.' });
+    if (!Number.isInteger(guestCountNum) || guestCountNum < 1 || guestCountNum > 40) {
+      return res.status(400).json({ error: 'Number of guests must be between 1 and 40.' });
     }
 
     // Valid time slots

@@ -167,10 +167,10 @@ export function ContactSection() {
       return;
     }
 
-    // Validate guest count is a number between 1 and 35
+    // Validate guest count is a number between 1 and 40
     const guestCountNum = Number(formData.guestCount);
-    if (!Number.isInteger(guestCountNum) || guestCountNum < 1 || guestCountNum > 35) {
-      toast.error('Number of guests must be between 1 and 35');
+    if (!Number.isInteger(guestCountNum) || guestCountNum < 1 || guestCountNum > 40) {
+      toast.error('Number of guests must be between 1 and 40');
       setIsSubmitting(false);
       return;
     }
@@ -414,7 +414,7 @@ export function ContactSection() {
                     className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1"
                     placeholder="How many guests in your party?"
                     min={1}
-                    max={35}
+                    max={40}
                     required
                   />
                 </div>
