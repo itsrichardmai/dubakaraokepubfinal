@@ -62,6 +62,7 @@ export function ContactSection() {
     name: '',
     phone: '',
     email: '',
+    guestCount: '',
     date: getTodayDate(),
     timeIn: '',
     timeOut: '',
@@ -159,9 +160,17 @@ export function ContactSection() {
     setIsSubmitting(true);
 
     // Validate required fields
-    if (!formData.name || !formData.phone || !formData.email || !formData.date || 
+    if (!formData.name || !formData.phone || !formData.email || !formData.guestCount || !formData.date ||
         !formData.timeIn || !formData.timeOut || !formData.desiredRoom) {
       toast.error('Please fill in all required fields');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Validate guest count is a number between 1 and 35
+    const guestCountNum = Number(formData.guestCount);
+    if (!Number.isInteger(guestCountNum) || guestCountNum < 1 || guestCountNum > 35) {
+      toast.error('Number of guests must be between 1 and 35');
       setIsSubmitting(false);
       return;
     }
@@ -191,6 +200,7 @@ export function ContactSection() {
         name: '',
         phone: '',
         email: '',
+        guestCount: '',
         date: '',
         timeIn: '',
         timeOut: '',
@@ -217,7 +227,7 @@ export function ContactSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent" style={{ fontFamily: "'Yeseva One', serif" }}>
-            Contact Us
+            CONTACT US
           </h2>
           <div className="h-1 w-24 bg-gradient-to-r from-transparent via-yellow-400 to-transparent mx-auto" />
         </motion.div>
@@ -271,7 +281,14 @@ export function ContactSection() {
                     </div>
                     <div>
                       <h4 className="text-white font-semibold mb-1">Address</h4>
-                      <p className="text-gray-300">{contactInfo.address}</p>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contactInfo.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-300 hover:text-yellow-400 transition-colors"
+                      >
+                        {contactInfo.address}
+                      </a>
                     </div>
                   </div>
 
@@ -383,6 +400,21 @@ export function ContactSection() {
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1"
                     placeholder="your@email.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="guestCount" className="text-gray-300">Number of Guests *</Label>
+                  <Input
+                    id="guestCount"
+                    type="number"
+                    value={formData.guestCount}
+                    onChange={(e) => handleInputChange('guestCount', e.target.value)}
+                    className="bg-black/50 border-gray-700 text-white focus:border-yellow-400 mt-1"
+                    placeholder="How many guests in your party?"
+                    min={1}
+                    max={35}
                     required
                   />
                 </div>
@@ -533,7 +565,7 @@ export function ContactSection() {
                   * Reservations for small rooms are not accepted for Friday/Saturday. They are first come first serve.
                 </p>
                 <p className="text-gray-400 text-xs text-center">
-                  * Submitting reservation confirms your compliance to our policies. 
+                  * Submitting a reservation request confirms your compliance to our policies. 
                 </p>
               </form>
             </Card>

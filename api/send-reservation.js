@@ -7,11 +7,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, phone, email, date, timeIn, timeOut, promoPackage, desiredRoom, specialRequests } = req.body;
+    const { name, phone, email, guestCount, date, timeIn, timeOut, promoPackage, desiredRoom, specialRequests } = req.body;
 
     // Validate required fields
-    if (!name || !phone || !email || !date || !timeIn || !timeOut || !desiredRoom) {
+    if (!name || !phone || !email || !guestCount || !date || !timeIn || !timeOut || !desiredRoom) {
       return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Validate guest count is a number between 1 and 35
+    const guestCountNum = Number(guestCount);
+    if (!Number.isInteger(guestCountNum) || guestCountNum < 1 || guestCountNum > 35) {
+      return res.status(400).json({ error: 'Number of guests must be between 1 and 35.' });
     }
 
     // Valid time slots
@@ -71,6 +77,7 @@ export default async function handler(req, res) {
 Name: ${name}
 Phone: ${phone}
 Email: ${email}
+Number of Guests: ${guestCount}
 Date: ${formattedDate}
 Time: ${timeIn} - ${timeOut}
 Room: ${desiredRoom}
@@ -143,6 +150,10 @@ const customerEmailHtml = `
                 <tr>
                   <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Email:</td>
                   <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${email}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Number of Guests:</td>
+                  <td style="padding: 12px 15px; color: #ffffff; border-bottom: 1px solid #2a2a2a;">${guestCount}</td>
                 </tr>
                 <tr>
                   <td style="padding: 12px 15px; color: #F5C400; font-weight: bold; border-bottom: 1px solid #2a2a2a;">Date:</td>

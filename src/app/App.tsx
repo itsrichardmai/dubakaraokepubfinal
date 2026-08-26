@@ -3,6 +3,7 @@ import { Navigation } from './components/Navigation';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { MenuSection } from './components/MenuSection';
+import { KaraokePricingSection } from './components/KaraokePricingSection';
 import { GallerySection } from './components/GallerySection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
@@ -13,7 +14,7 @@ export default function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'menu', 'gallery', 'contact-us'];
+      const sections = ['home', 'about', 'menu', 'karaoke-pricing', 'gallery', 'contact-us'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -38,6 +39,7 @@ export default function App() {
       <HeroSection />
       <AboutSection />
       <MenuSection />
+      <KaraokePricingSection />
       <GallerySection />
       <ContactSection />
       <Footer />

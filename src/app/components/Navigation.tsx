@@ -24,6 +24,7 @@ export function Navigation({ activeSection }: NavigationProps) {
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'menu', label: 'Menu' },
+    { id: 'karaoke-pricing', label: 'Karaoke Pricing' },
     { id: 'gallery', label: 'Gallery' },
     { id: 'contact-us', label: 'Contact' },
   ];
